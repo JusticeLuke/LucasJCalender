@@ -115,7 +115,7 @@ public class CustomerFormController implements Initializable {
         return true;
     }
     
-    //If updating a customer passes the customer object, and sets it variables to the apporiate text fields
+    //If updating a customer passes the customer object, and sets it variables to the apporiate text fields.
     void setCustomerInfo(Customer customer){
         updatingCustomer = true;
         customerId = customer.getCustomerId();
