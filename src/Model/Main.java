@@ -32,6 +32,7 @@ import util.DBQuery;
 public class Main extends Application {
     
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+
     public static Stage stage = new Stage();
     private static Parent root;
     
@@ -121,6 +122,10 @@ public class Main extends Application {
     public static boolean removeCustomer(Customer customer){
         customer.removeCustomer();
         allCustomers.remove(customer);
+        return true;
+    }
+
+    public static boolean checkSchedule(String date, String time){
         return true;
     }
     

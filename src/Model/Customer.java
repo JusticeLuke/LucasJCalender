@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import util.Connect;
 
 /**
@@ -25,9 +28,11 @@ public class Customer {
     private String address;//just the street number and name
     private String postalCode, city, country;
     private int customerId;//Unique id of customer used to locate record in the database
-    
-    
-           
+
+    private static ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+
+
+
     public Customer(int customerId, String name, String phone, String address, String postalCode, String city, String country, boolean newCustomer){
         this.customerId = customerId;
         this.name = name;
@@ -247,6 +252,16 @@ public class Customer {
             Logger.getLogger(scheduleController.class.getName()).log(Level.SEVERE, null, e);
         }
         return false;
-    }    
+    }
+
+    //Returns customer appointments
+    public ObservableList<Appointment> getAppointments(){
+        return customerAppointments;
+    }
+
+    //Add appointment to customer list
+    public void addAppointment(Appointment appointment){
+
+    }
     
 }
