@@ -6,29 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="998.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.scheduleController">
    <children>
-      <TableView fx:id="calendarTable" layoutX="247.0" prefHeight="450.0" prefWidth="553.0">
-        <columns>
-            <TableColumn editable="false" prefWidth="75.0" sortable="false" text="SUN" />
-          <TableColumn editable="false" prefWidth="75.0" sortable="false" text="MON" />
-          <TableColumn editable="false" prefWidth="75.0" sortable="false" text="TUES" />
-            <TableColumn editable="false" prefWidth="75.0" sortable="false" text="WED" />
-            <TableColumn editable="false" prefWidth="75.0" sortable="false" text="THURS" />
-            <TableColumn editable="false" prefWidth="75.0" sortable="false" text="FRI" />
-            <TableColumn editable="false" prefWidth="75.0" sortable="false" text="SAT" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
       <AnchorPane prefHeight="450.0" prefWidth="200.0">
          <children>
             <Label layoutX="68.0" layoutY="-6.0" prefHeight="40.0" prefWidth="109.0" text="CUSTOMERS" textAlignment="CENTER">
@@ -51,13 +35,13 @@
             <Button fx:id="deleteCustomerButton" layoutX="177.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteCustomerButtonHandler" prefHeight="25.0" prefWidth="25.0" text="-" />
          </children>
       </AnchorPane>
-      <Label layoutX="807.0" layoutY="7.0" prefHeight="26.0" prefWidth="97.0" text="CALENDAR">
+      <Label layoutX="850.0" layoutY="8.0" prefHeight="26.0" prefWidth="97.0" text="CALENDAR">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="yearTextField" floatText="YEAR" layoutX="807.0" layoutY="34.0" prefHeight="15.0" prefWidth="107.0" />
-      <MenuButton fx:id="monthMenu" layoutX="914.0" layoutY="43.0" mnemonicParsing="false" text="MONTH">
+      <TextField fx:id="yearTextField" layoutX="907.0" layoutY="43.0" prefHeight="0.0" prefWidth="67.0" promptText="YEAR" />
+      <MenuButton fx:id="monthMenu" layoutX="821.0" layoutY="43.0" mnemonicParsing="false" text="MONTH">
         <items>
           <MenuItem mnemonicParsing="false" text="JAN" />
           <MenuItem mnemonicParsing="false" text="FEB" />
@@ -73,14 +57,28 @@
             <MenuItem mnemonicParsing="false" text="DEC" />
         </items>
       </MenuButton>
-      <Label layoutX="807.0" layoutY="136.0" text="View By" />
-      <RadioButton fx:id="monthRadioButton" layoutX="807.0" layoutY="166.0" mnemonicParsing="false" onAction="#monthRadioButtonHandler" prefHeight="18.0" prefWidth="109.0" text="Month">
-         <toggleGroup>
-            <ToggleGroup fx:id="weekMonth" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="weekRadioButton" layoutX="807.0" layoutY="184.0" mnemonicParsing="false" onAction="#weekRadioButtonHandler" text="Week" toggleGroup="$weekMonth" />
-      <Button fx:id="scheduleButton" layoutX="856.0" layoutY="372.0" mnemonicParsing="false" onAction="#scheduleButtonHandler" text="SCHEDULE" />
-      <DatePicker fx:id="datePicker" layoutX="807.0" layoutY="337.0" />
-      <Button fx:id="dateButton" layoutX="807.0" layoutY="79.0" mnemonicParsing="false" onAction="#dateButtonHandler" text="ENTER" />
+      <Button fx:id="scheduleButton" layoutX="530.0" layoutY="276.0" mnemonicParsing="false" onAction="#scheduleButtonHandler" text="SCHEDULE" />
+      <DatePicker fx:id="datePicker" layoutX="612.0" layoutY="276.0" />
+      <Button fx:id="viewNextButton" layoutX="907.0" layoutY="82.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="67.0" text="NEXT" />
+      <TableView fx:id="appointmentTable" layoutX="259.0" layoutY="43.0" prefHeight="233.0" prefWidth="541.0">
+        <columns>
+          <TableColumn fx:id="appointmentColumn" prefWidth="136.0" text="Appointment Type" />
+            <TableColumn fx:id="timeColumn" prefWidth="99.0" text="Time" />
+            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="57.0" text="Day" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <MenuButton fx:id="viewByMenu" layoutX="819.0" layoutY="82.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="83.0" text="VIEW">
+        <items>
+          <MenuItem fx:id="monthMenuItem" mnemonicParsing="false" text="by Month" />
+          <MenuItem mnemonicParsing="false" text="by Week" />
+        </items>
+      </MenuButton>
+      <Button fx:id="updateAppointmentButton" layoutX="285.0" layoutY="276.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
+      <Button layoutX="259.0" layoutY="276.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="deleteAppointmentButton" layoutX="352.0" layoutY="276.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
+      <Label fx:id="customerInfoLabel" layoutX="259.0" layoutY="26.0" text="Customer Name for Month" />
    </children>
 </AnchorPane>

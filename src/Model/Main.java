@@ -125,8 +125,32 @@ public class Main extends Application {
         return true;
     }
 
-    public static boolean checkSchedule(String date, String time){
-        return true;
+    //Makes a query to check for any overlapping appoints. Returns true if the appointment window has
+    //no conflicts, and false if there are conflicts.
+    public static boolean checkSchedule(String startTime, String endTime, int userId) throws SQLException{
+        Connection conn = Connect.getConnection();
+        String selectStatement = "SELECT * FROM appointment " +//Find all records from appointment
+                                 "WHERE start BETWEEN ? AND ? " +//Where appointment start time is between given start(1) and end(2) times
+                                 "AND end BETWEEN ? AND ?" +//And where appointment end time is between given start(3) and end(4) times
+                                 "AND userId = ?";//And where userId equals the given userId(5)
+
+
+        DBQuery.setPreparedStatement(conn,selectStatement);
+        PreparedStatement ps = conn.prepareStatement(selectStatement);
+
+        ps.setString(1,startTime);
+        ps.setString(2,endTime);
+        ps.setString(3,startTime);
+        ps.setString(4,endTime);
+        ps.setInt(5,userId);
+
+        ps.execute(selectStatement);
+        ResultSet rs = ps.getResultSet();
+
+        while(rs.next()){
+            return false;//Returns false if at least 1 scheduling conflicts
+        }
+        return true;//
     }
     
     
