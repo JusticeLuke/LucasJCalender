@@ -2,9 +2,8 @@
 
 <?import com.gluonhq.charm.glisten.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -35,22 +34,6 @@
          </children>
       </AnchorPane>
       <TextField fx:id="yearTextField" layoutX="587.0" layoutY="13.0" prefHeight="0.0" prefWidth="67.0" promptText="YEAR" />
-      <MenuButton fx:id="monthMenu" layoutX="505.0" layoutY="13.0" mnemonicParsing="false" text="MONTH">
-        <items>
-            <MenuItem mnemonicParsing="false" text="JANUARY" />
-            <MenuItem mnemonicParsing="false" text="FEBUARY" />
-            <MenuItem mnemonicParsing="false" text="MARCH" />
-            <MenuItem mnemonicParsing="false" text="APRIL" />
-            <MenuItem mnemonicParsing="false" text="MAY" />
-            <MenuItem mnemonicParsing="false" text="JUNE" />
-            <MenuItem mnemonicParsing="false" text="JULY" />
-            <MenuItem mnemonicParsing="false" text="AUGUST" />
-            <MenuItem mnemonicParsing="false" text="SEPTEMBER" />
-            <MenuItem mnemonicParsing="false" text="OCTOBER" />
-            <MenuItem mnemonicParsing="false" text="NOVEMBER" />
-            <MenuItem mnemonicParsing="false" text="DECEMBER" />
-        </items>
-      </MenuButton>
       <Button fx:id="viewNextButton" layoutX="654.0" layoutY="13.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="67.0" text="NEXT" />
       <TableView fx:id="appointmentTable" layoutX="259.0" layoutY="43.0" prefHeight="233.0" prefWidth="723.0">
         <columns>
@@ -63,15 +46,11 @@
             <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="60.0" text="Day" />
         </columns>
       </TableView>
-      <MenuButton fx:id="viewByMenu" layoutX="899.0" layoutY="13.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="83.0" text="VIEW">
-        <items>
-          <MenuItem fx:id="monthMenuItem" mnemonicParsing="false" text="by Month" />
-          <MenuItem mnemonicParsing="false" text="by Week" />
-        </items>
-      </MenuButton>
       <Button fx:id="updateAppointmentButton" layoutX="284.0" layoutY="276.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
       <Button fx:id="addAppointmentButton" layoutX="259.0" layoutY="276.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
       <Button fx:id="deleteAppointmentButton" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
       <Label fx:id="customerInfoLabel" layoutX="259.0" layoutY="26.0" text="Customer Name Appointments" />
+      <ComboBox fx:id="monthComboBox" layoutX="493.0" layoutY="13.0" prefHeight="27.0" prefWidth="94.0" promptText="JANUARY" visibleRowCount="12" />
+      <ComboBox fx:id="viewByComboBox" layoutX="882.0" layoutY="13.0" prefHeight="27.0" prefWidth="100.0" promptText="VIEW BY" visibleRowCount="12" />
    </children>
 </AnchorPane>

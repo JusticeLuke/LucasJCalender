@@ -36,27 +36,58 @@ public class Appointment {
         this.customer = customer;
     }
 
+    public void setType(String type){
+        this.type = type;
+    }
+
+    public void setUser(String user){
+        this.user = user;
+    }
+
+    public void setLocation(String location){
+        this.location = location;
+    }
+
     public void setStart(String start){
         this.start = start;
     }
 
-    public void setDate(String date){
-        this.date = date;
+    public void setEnd(String end){
+        this.end = end;
     }
 
+    public void setDay(String day) {
+        this.day = day;
+    }
 
     public Customer getCustomer(){
         return customer;
     }
 
-    public String getTime(){
-        return time;
+    public String getType(){
+        return type;
     }
 
-    public String getDate(){
-        return date;
+    public String getLocation() {
+        return location;
     }
-    
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
     public boolean addAppointmentToDatabase(){
         return true;
     }

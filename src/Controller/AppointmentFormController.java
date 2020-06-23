@@ -38,6 +38,12 @@ public class AppointmentFormController implements Initializable {
     @FXML
     private Button cancelButton;
 
+    String type;
+    String start;
+    String end;
+    String year;
+    String month;
+    String day;
     /**
      * Initializes the controller class.
      */
@@ -48,6 +54,8 @@ public class AppointmentFormController implements Initializable {
 
     @FXML
     private void saveButtonHandler(ActionEvent event) {
+        type = typeTextField.getText();
+        //start = startMenu.get
     }
 
     @FXML
