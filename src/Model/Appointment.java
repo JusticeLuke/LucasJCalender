@@ -14,21 +14,30 @@ import javafx.collections.ObservableList;
  */
 public class Appointment {
     private Customer customer;
-    private String time;
-    private String date;
+    private String type;
+    private String user;
+    private String location;
+    private String start;
+    private String end;
+    private String day;
 
-    public Appointment(Customer customer,String time, String date){
+    public Appointment(Customer customer,String type, String user, String location, String start, String end, String day){
         this.customer = customer;
-        this.date = date;
-        this.time = time;
-    }
+        this.type = type;
+        this.user = user;
+        this.location = location;
+        this.start = start;
+        this.end = end;
+        this.day = day;
+    }    
+    
 
     public void setCustomer(Customer customer){
         this.customer = customer;
     }
 
-    public void setTime(String time){
-        this.time = time;
+    public void setStart(String start){
+        this.start = start;
     }
 
     public void setDate(String date){
@@ -46,5 +55,9 @@ public class Appointment {
 
     public String getDate(){
         return date;
+    }
+    
+    public boolean addAppointmentToDatabase(){
+        return true;
     }
 }

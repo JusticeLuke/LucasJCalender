@@ -29,7 +29,7 @@ public class Customer {
     private String postalCode, city, country;
     private int customerId;//Unique id of customer used to locate record in the database
 
-    private static ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+    private static ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();//Customer's appointments
 
 
 
@@ -49,68 +49,6 @@ public class Customer {
         if(newCustomer){
             this.addCustomerToDatabase(country, city, address, phone, postalCode, name);
         }
-    }
-    
-  
-    
-    
-    //Set customer's name
-    public void setName(String name){
-        this.name = name;
-    }
-    
-    //Set customer's phone number as a 7 digit integer
-    public void setPhone(String phoneNum){
-        this.phone = phoneNum;
-    }
-    
-    //Set full address includes street address, postal code, city, and country
-    public void setAddress(String address){
-        this.address = address;
-    }
-    
-    public void setPostalCode(String postalCode){
-        this.postalCode = postalCode;
-    }
-    
-    public void setCity(String City){
-        this.city = city;
-    }
-    
-    public void setCountry(String country){
-        this.country = country;
-    }
-    
-    //Get customer's name
-    public String getName(){
-        return name;
-    }
-
-    //Get customer's phone number
-    public String getPhone(){
-        return phone;
-    }
-    
-    //Get customer's address
-    public String getAddress(){
-        return address;
-    }
-    
-    public String getPostalCode(){
-        return postalCode;
-    }
-    
-    public String getCity(){
-        return city;
-    }
-    
-    public String getCountry(){
-        return country;
-    }
-    
-    //Get unique customerId
-    public int getCustomerId() {
-        return customerId;
     }
     
     //Adds new customer to database. Returns false in it fails, and true if successful
@@ -203,27 +141,15 @@ public class Customer {
             ps.execute();
             
             //Updates customer record with a new name value
-            updateStatement = "UPDATE customer SET customerName = ? WHERE customerId = ?;";            
+            updateStatement = "UPDATE customer SET customerName = ?, addressId = (SELECT address FROM address WHERE address = ? AND postalCode = ? AND phone = ?) WHERE customerId = ?;";//Update customer name and addressId             
             ps = conn.prepareStatement(updateStatement);
             
             ps.setString(1,customerName);
-            ps.setString(2,Integer.toString(customerId));            
+            ps.setString(2,address);
+            ps.setString(3,postalCode);
+            ps.setString(4,phone);
+            ps.setString(5,Integer.toString(customerId));            
             ps.execute();
-            /*
-            //Now that its ensured that a customer's record is complete
-            //Update address, phone, and postal attributes
-            updateStatement = "UPDATE address "
-                    + "SET address = "+ customerName +", postalCode = "+ postalCode +", phone = "+ phone +", "
-                    + "cityId =(SELECT cityId FROM city WHERE EXISTS (SELECT city FROM city WHERE city = "+ city +"))"
-                    + "WHERE addressId = (SELECT addressId FROM customer WHERE customerId = "+ customerId +")";            
-            ps = conn.prepareStatement(updateStatement);
-            ps.execute();
-            
-            //Update customerName 
-            updateStatement = "UPDATE customer SET customer.customerName = " + customerName + " WHERE customerId = " + customerId;            
-            ps = conn.prepareStatement(updateStatement);
-            ps.execute();
-            */
             
             Main.updateCustomer(this, country, city, address, phone, postalCode, customerName);
             return true;
@@ -252,6 +178,71 @@ public class Customer {
             Logger.getLogger(scheduleController.class.getName()).log(Level.SEVERE, null, e);
         }
         return false;
+    }   
+    
+    //Set customer's name
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    //Set customer's phone number as a 7 digit integer
+    public void setPhone(String phoneNum){
+        this.phone = phoneNum;
+    }
+    
+    //Set full address includes street address, postal code, city, and country
+    public void setAddress(String address){
+        this.address = address;
+    }
+    
+    //Set customer's postal code
+    public void setPostalCode(String postalCode){
+        this.postalCode = postalCode;
+    }
+    
+    //Set customer's city
+    public void setCity(String City){
+        this.city = city;
+    }
+    
+    //Set customer's country
+    public void setCountry(String country){
+        this.country = country;
+    }
+    
+    //Get customer's name
+    public String getName(){
+        return name;
+    }
+
+    //Get customer's phone number
+    public String getPhone(){
+        return phone;
+    }
+    
+    //Get customer's address
+    public String getAddress(){
+        return address;
+    }
+    
+    //Get customer's postal code
+    public String getPostalCode(){
+        return postalCode;
+    }
+    
+    //Get customer's city
+    public String getCity(){
+        return city;
+    }
+    
+    //Get customer's country
+    public String getCountry(){
+        return country;
+    }
+    
+    //Get unique customerId
+    public int getCustomerId() {
+        return customerId;
     }
 
     //Returns customer appointments
@@ -261,7 +252,7 @@ public class Customer {
 
     //Add appointment to customer list
     public void addAppointment(Appointment appointment){
-
+        customerAppointments.add(appointment);
     }
     
 }
