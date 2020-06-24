@@ -15,17 +15,15 @@ import javafx.collections.ObservableList;
 public class Appointment {
     private Customer customer;
     private String type;
-    private String user;
-    private String location;
+    private String user;    
     private String start;
     private String end;
     private String day;
 
-    public Appointment(Customer customer,String type, String user, String location, String start, String end, String day){
+    public Appointment(Customer customer,String type, String user, String start, String end, String day){
         this.customer = customer;
         this.type = type;
-        this.user = user;
-        this.location = location;
+        this.user = user;        
         this.start = start;
         this.end = end;
         this.day = day;
@@ -42,10 +40,6 @@ public class Appointment {
 
     public void setUser(String user){
         this.user = user;
-    }
-
-    public void setLocation(String location){
-        this.location = location;
     }
 
     public void setStart(String start){
@@ -66,10 +60,6 @@ public class Appointment {
 
     public String getType(){
         return type;
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     public String getUser() {

@@ -5,13 +5,18 @@
  */
 package Controller;
 
+import Model.Appointment;
+import Model.Customer;
+import Model.Main;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -24,15 +29,15 @@ public class AppointmentFormController implements Initializable {
     @FXML
     private TextField typeTextField;
     @FXML
-    private MenuButton startMenu;
+    private TextField yearTextField;
     @FXML
-    private MenuButton endMenu;
+    private ComboBox<String> monthComboBox;
     @FXML
-    private MenuButton yearMenu;
+    private ComboBox<String> dayComboBox;
     @FXML
-    private MenuButton monthMenu;
+    private ComboBox<String> startComboBox;
     @FXML
-    private MenuButton dayMenu;
+    private ComboBox<String> endComboBox;
     @FXML
     private Button saveButton;
     @FXML
@@ -44,22 +49,71 @@ public class AppointmentFormController implements Initializable {
     String year;
     String month;
     String day;
+    
+    String errorString;
+    private boolean updatingAppointment = false;
+    Customer customer;
+    String user;
+    
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
 
     @FXML
     private void saveButtonHandler(ActionEvent event) {
         type = typeTextField.getText();
-        //start = startMenu.get
+        start = startComboBox.getValue();
+        end = endComboBox.getValue();
+        year = yearTextField.getText();
+        month = monthComboBox.getValue();
+        day = dayComboBox.getValue();
+        
+        Alert alert;
+        Appointment appointment;
+        
+        if(inputValidation()){
+            if(!updatingAppointment){
+                appointment = new Appointment(customer, type, user, start, end, day);//Create new customer
+                
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("New Record Created");
+                alert.setHeaderText(null);
+                alert.setContentText("A new appoint has been created and added to the database.");
+
+                alert.showAndWait();
+                cancelButtonHandler(event);
+            }else if(updatingAppointment){     
+                
+                
+                cancelButtonHandler(event);
+            }
+        } else{
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Error Found");
+            alert.setHeaderText(null);
+            alert.setContentText(errorString);//Displays error string from inputValidation
+
+            alert.showAndWait();        
+        }        
     }
 
     @FXML
     private void cancelButtonHandler(ActionEvent event) {
+    }
+    
+    private boolean inputValidation(){
+        return true;
+    }
+    
+    public void setAppointmentInfo(Customer customer, String user){
+        this.customer = customer;
+        this.user = user;
     }
     
 }

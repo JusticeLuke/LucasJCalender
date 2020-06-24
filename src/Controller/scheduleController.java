@@ -25,6 +25,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
@@ -44,12 +45,6 @@ public class scheduleController implements Initializable {
     @FXML
     private TextField yearTextField;
     @FXML
-    private MenuButton monthMenu;
-    @FXML
-    private Button scheduleButton;
-    @FXML
-    private DatePicker datePicker;
-    @FXML
     private TableView<Customer> customerTable = new TableView<Customer>();
     @FXML
     private TableColumn<Customer, String> nameColumn;
@@ -65,8 +60,7 @@ public class scheduleController implements Initializable {
     private TableColumn<Customer, String> countryColumn;    
     @FXML
     private TableView<Appointment> appointmentTable;
-    @FXML
-    private TableColumn<Appointment, String> locationColumn;
+    
     @FXML
     private TableColumn<Appointment, String> startTmeColumn;
     @FXML
@@ -80,10 +74,6 @@ public class scheduleController implements Initializable {
     @FXML
     private TableColumn<Appointment, String> customerLinkColumn;
     @FXML
-    private MenuButton viewByMenu;
-    @FXML
-    private MenuItem monthMenuItem;
-    @FXML
     private Button updateAppointmentButton;
     @FXML
     private Button addAppointmentButton;
@@ -93,6 +83,10 @@ public class scheduleController implements Initializable {
     private Label customerInfoLabel;
     @FXML
     private Button viewNextButton;
+    @FXML
+    private ComboBox<?> monthComboBox;
+    @FXML
+    private ComboBox<?> viewByComboBox;
     
     
     
@@ -101,6 +95,7 @@ public class scheduleController implements Initializable {
     //Populates customer and appointment tables with current data
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Populate customer table
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -111,6 +106,14 @@ public class scheduleController implements Initializable {
         customerTable.setPlaceholder(new Label("No rows to display")); 
         
         customerTable.setItems(Main.getCustomerList());
+        
+        //Populate appointment table
+        startTmeColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
+        customerLinkColumn.setCellValueFactory(new PropertyValueFactory<>(""));
         
     }    
 

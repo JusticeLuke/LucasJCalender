@@ -33,24 +33,23 @@
             <Button fx:id="deleteCustomerButton" layoutX="177.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteCustomerButtonHandler" prefHeight="25.0" prefWidth="25.0" text="-" />
          </children>
       </AnchorPane>
-      <TextField fx:id="yearTextField" layoutX="587.0" layoutY="13.0" prefHeight="0.0" prefWidth="67.0" promptText="YEAR" />
-      <Button fx:id="viewNextButton" layoutX="654.0" layoutY="13.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="67.0" text="NEXT" />
-      <TableView fx:id="appointmentTable" layoutX="259.0" layoutY="43.0" prefHeight="233.0" prefWidth="723.0">
+      <TextField fx:id="yearTextField" layoutX="587.0" layoutY="5.0" prefHeight="0.0" prefWidth="67.0" promptText="YEAR" />
+      <Button fx:id="viewNextButton" layoutX="654.0" layoutY="4.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="67.0" text="NEXT" />
+      <TableView fx:id="appointmentTable" layoutX="259.0" layoutY="40.0" prefHeight="352.0" prefWidth="723.0">
         <columns>
           <TableColumn fx:id="typeColumn" prefWidth="183.0" text="Type" />
             <TableColumn fx:id="consultantColumn" minWidth="0.0" prefWidth="106.0" text="Consultant" />
-            <TableColumn fx:id="locationColumn" prefWidth="121.0" text="Location" />
             <TableColumn fx:id="customerLinkColumn" prefWidth="127.0" text="Customer Link" />
-            <TableColumn fx:id="startTmeColumn" prefWidth="62.0" text="Start" />
-            <TableColumn fx:id="endTimeColumn" prefWidth="63.0" text="End" />
-            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="60.0" text="Day" />
+            <TableColumn fx:id="startTmeColumn" prefWidth="114.6666259765625" text="Start" />
+            <TableColumn fx:id="endTimeColumn" prefWidth="116.0001220703125" text="End" />
+            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="75.3333740234375" text="Day" />
         </columns>
       </TableView>
-      <Button fx:id="updateAppointmentButton" layoutX="284.0" layoutY="276.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
-      <Button fx:id="addAppointmentButton" layoutX="259.0" layoutY="276.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
-      <Button fx:id="deleteAppointmentButton" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
-      <Label fx:id="customerInfoLabel" layoutX="259.0" layoutY="26.0" text="Customer Name Appointments" />
-      <ComboBox fx:id="monthComboBox" layoutX="493.0" layoutY="13.0" prefHeight="27.0" prefWidth="94.0" promptText="JANUARY" visibleRowCount="12" />
-      <ComboBox fx:id="viewByComboBox" layoutX="882.0" layoutY="13.0" prefHeight="27.0" prefWidth="100.0" promptText="VIEW BY" visibleRowCount="12" />
+      <Button fx:id="updateAppointmentButton" layoutX="888.0" layoutY="410.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
+      <Button fx:id="addAppointmentButton" layoutX="855.0" layoutY="410.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
+      <Button fx:id="deleteAppointmentButton" layoutX="960.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
+      <Label fx:id="customerInfoLabel" layoutX="259.0" layoutY="9.0" text="Customer Name Appointments" />
+      <ComboBox fx:id="monthComboBox" layoutX="493.0" layoutY="4.0" prefHeight="27.0" prefWidth="94.0" promptText="JANUARY" visibleRowCount="12" />
+      <ComboBox fx:id="viewByComboBox" layoutX="880.0" layoutY="4.0" prefHeight="27.0" prefWidth="100.0" promptText="VIEW BY" visibleRowCount="12" />
    </children>
 </AnchorPane>
