@@ -32,9 +32,13 @@ import util.DBQuery;
 public class Main extends Application {
     
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     public static Stage stage = new Stage();
     private static Parent root;
+    
+    private static String currentUser;
+    private static int userId = 1;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -80,15 +84,65 @@ public class Main extends Application {
         while(rs.next()){
             if(rs.getInt("active") == 1){
                 customer = new Customer(rs.getInt("customerId"), rs.getString("customerName"), rs.getString("phone"), 
-                rs.getString("address"), rs.getString("postalCode"),rs.getString("city"),rs.getString("country"),false);
+                rs.getString("address"), rs.getString("postalCode"),rs.getString("city"),rs.getString("country"),false);//Create customer
+                grabAppointments(customer);//Get customer's appointments from database
             }
         }       
        
     }
     
+    //Query database for customer's appointments then add them to the customer's appointment list and the allAppointment's list
+    private void grabAppointments(Customer customer) throws SQLException{
+        String type;
+        String user;
+        String start;
+        String end;
+        String year;
+        String month;
+        String day;
+        
+        Connection conn = Connect.getConnection();
+        String selectStatement = "SELECT appointment.type, appointment.userId, appointment.start, appointment.end, user.userName "
+                + "FROM appointment "
+                + "INNER JOIN user ON appointment.userId = user.userId "
+                + "WHERE customerId = "+ customer.getCustomerId()+";";
+         
+        DBQuery.setPreparedStatement(conn,selectStatement);
+        Statement statement = DBQuery.getPreparedStatement();
+        
+        statement.execute(selectStatement);
+        
+        ResultSet rs = statement.getResultSet();
+        
+        Appointment appointment;
+        while(rs.next()){
+            type = rs.getString("type");
+            start = rs.getString("start");
+            start = start.substring(start.indexOf(" ")+1, start.indexOf(":"));
+            end = rs.getString("end");
+            end = end.substring(end.indexOf(" ")+1, end.indexOf(":"));
+            year = rs.getString("start");
+            year = year.substring(0,5);
+            month = rs.getString("start");
+            month = month.substring(5,7);
+            day = rs.getString("start");
+            day = day.substring(8,10);
+            user = rs.getString("userName");
+            appointment = new Appointment(customer, type, user, start, end, year, month, day, false);
+            customer.addAppointment(appointment);
+            Main.addToAppointmentList(appointment);
+        }
+        
+        
+    }
+    
     //Returns observable list of customers
     public static ObservableList<Customer> getCustomerList(){
         return allCustomers;
+    }
+    
+    public static ObservableList<Appointment> getAppointmentList(){
+        return allAppointments;
     }
     
     public static Customer lookupCustomer(int customerId){
@@ -124,6 +178,11 @@ public class Main extends Application {
         allCustomers.remove(customer);
         return true;
     }
+    
+    public static boolean addToAppointmentList(Appointment appointment){
+        allAppointments.add(appointment);
+        return true;
+    }
 
     //Makes a query to check for any overlapping appoints. Returns true if the appointment window has
     //no conflicts, and false if there are conflicts.
@@ -153,6 +212,13 @@ public class Main extends Application {
         return true;//
     }
     
+    //User id is set when the user logins
+    public static void setUserId(int id){
+        userId = id;
+    }
     
-        
+    //Returns user id. Used     
+    public static int getUserId(){
+        return userId;
+    }    
 }

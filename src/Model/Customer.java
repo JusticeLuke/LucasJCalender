@@ -29,7 +29,7 @@ public class Customer {
     private String postalCode, city, country;
     private int customerId;//Unique id of customer used to locate record in the database
 
-    private static ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();//Customer's appointments
+    private ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();//Customer's appointments
 
 
 
@@ -47,12 +47,12 @@ public class Customer {
         Main.addToCustomerList(this);
         
         if(newCustomer){
-            this.addCustomerToDatabase(country, city, address, phone, postalCode, name);
+            this.addCustomerToDatabase();
         }
     }
     
     //Adds new customer to database. Returns false in it fails, and true if successful
-    public boolean addCustomerToDatabase(String country, String city, String address, String phone, String postalCode, String customerName) {
+    public boolean addCustomerToDatabase() {
        
         try {
             Connection conn = Connect.getConnection();//Get Connection
@@ -84,7 +84,7 @@ public class Customer {
                 + "VALUES(?, LAST_INSERT_ID(), 1, now(), 'admin', now(), 'admin');";//Insert customerName(6) value 
             
             ps = conn.prepareStatement(insertStatement);
-            ps.setString(1, customerName);
+            ps.setString(1, name);
 
             ps.execute();
             
@@ -141,7 +141,7 @@ public class Customer {
             ps.execute();
             
             //Updates customer record with a new name value
-            updateStatement = "UPDATE customer SET customerName = ?, addressId = (SELECT address FROM address WHERE address = ? AND postalCode = ? AND phone = ?) WHERE customerId = ?;";//Update customer name and addressId             
+            updateStatement = "UPDATE customer SET customerName = ?, addressId = (SELECT addressId FROM address WHERE address = ? AND postalCode = ? AND phone = ?) WHERE customerId = ?;";//Update customer name and addressId             
             ps = conn.prepareStatement(updateStatement);
             
             ps.setString(1,customerName);
@@ -253,6 +253,10 @@ public class Customer {
     //Add appointment to customer list
     public void addAppointment(Appointment appointment){
         customerAppointments.add(appointment);
+    }
+    
+    public void removeAppointment(Appointment appointment){
+        customerAppointments.remove(appointment);
     }
     
 }

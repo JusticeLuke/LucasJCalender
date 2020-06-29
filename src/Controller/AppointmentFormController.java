@@ -9,6 +9,7 @@ import Model.Appointment;
 import Model.Customer;
 import Model.Main;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 
 /**
@@ -30,8 +33,7 @@ public class AppointmentFormController implements Initializable {
     private TextField typeTextField;
     @FXML
     private TextField yearTextField;
-    @FXML
-    private ComboBox<String> monthComboBox;
+   
     @FXML
     private ComboBox<String> dayComboBox;
     @FXML
@@ -43,6 +45,34 @@ public class AppointmentFormController implements Initializable {
     @FXML
     private Button cancelButton;
 
+    
+    @FXML
+    private MenuButton monthMenuButton;
+    @FXML
+    private MenuItem janMenuItem;
+    @FXML
+    private MenuItem febMenuItem;
+    @FXML
+    private MenuItem marMenuItem;
+    @FXML
+    private MenuItem aprMenuItem;
+    @FXML
+    private MenuItem mayMenuItem;
+    @FXML
+    private MenuItem junMenuItem;
+    @FXML
+    private MenuItem julMenuItem;
+    @FXML
+    private MenuItem augMenuItem;
+    @FXML
+    private MenuItem sepMenuItem;
+    @FXML
+    private MenuItem octMenuItem;
+    @FXML
+    private MenuItem novMenuItem;
+    @FXML
+    private MenuItem decMenuItem;
+    
     String type;
     String start;
     String end;
@@ -53,25 +83,47 @@ public class AppointmentFormController implements Initializable {
     String errorString;
     private boolean updatingAppointment = false;
     Customer customer;
-    String user;
-    
-    
+    String user;    
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Populate combo box
+        //Populate start times combo box
+        startComboBox.getItems().add("08AM");
+        startComboBox.getItems().add("09AM");
+        startComboBox.getItems().add("10AM");
+        startComboBox.getItems().add("11AM");
+        startComboBox.getItems().add("12PM");
+        startComboBox.getItems().add("01PM");
+        startComboBox.getItems().add("02PM");
+        startComboBox.getItems().add("03PM");
+        startComboBox.getItems().add("04PM");
+        
+        //Populate end times combo box
+        endComboBox.getItems().add("09AM");
+        endComboBox.getItems().add("10AM");
+        endComboBox.getItems().add("11AM");
+        endComboBox.getItems().add("12PM");
+        endComboBox.getItems().add("01PM");
+        endComboBox.getItems().add("02PM");
+        endComboBox.getItems().add("03PM");
+        endComboBox.getItems().add("04PM");
+        endComboBox.getItems().add("05PM");
+        
+        
+
         
     }    
 
     @FXML
-    private void saveButtonHandler(ActionEvent event) {
+    private void saveButtonHandler(ActionEvent event) throws SQLException {
         type = typeTextField.getText();
-        start = startComboBox.getValue();
-        end = endComboBox.getValue();
-        year = yearTextField.getText();
-        month = monthComboBox.getValue();
+        start = startComboBox.getValue().toString();  
+        end = endComboBox.getValue().toString();
+        year = yearTextField.getText();        
         day = dayComboBox.getValue();
         
         Alert alert;
@@ -79,7 +131,7 @@ public class AppointmentFormController implements Initializable {
         
         if(inputValidation()){
             if(!updatingAppointment){
-                appointment = new Appointment(customer, type, user, start, end, day);//Create new customer
+                appointment = new Appointment(customer, type, user, start, end, year, month, day, true);//Create new appointment
                 
                 alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("New Record Created");
@@ -108,12 +160,120 @@ public class AppointmentFormController implements Initializable {
     }
     
     private boolean inputValidation(){
+        start = start.substring(0,2);
+        end = end.substring(0,2);
         return true;
     }
     
-    public void setAppointmentInfo(Customer customer, String user){
+    //Grabs selected customer and assoicates it with the new appointment
+    public void setAppointmentInfo(Customer customer){
         this.customer = customer;
-        this.user = user;
+    }
+    
+    //Takes appointment and populates appointment form text fields and menus with the appointment's variables
+    public void setAppointmentInfo(Appointment appointment){
+        
+          
+    }
+
+    @FXML
+    private void janMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("JANUARY");
+        populateDayComboBoxFor(31);
+        month = "01";
+    }
+
+    @FXML
+    private void febMenuItemHandler(ActionEvent event) {
+       int year = 1;
+       monthMenuButton.setText("FEBUARY");
+       if(yearTextField.getText() != null && !yearTextField.getText().trim().equals("") ){ 
+            year = Integer.parseInt(yearTextField.getText());            
+       }
+       if(year%4 == 0){
+            populateDayComboBoxFor(28);
+       }else{
+            populateDayComboBoxFor(29);
+        }
+       month = "02";
+    }
+
+    @FXML
+    private void marMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("MARCH");
+        populateDayComboBoxFor(31);
+        month = "03";
+    }
+
+    @FXML
+    private void aprMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("APRIL");
+        populateDayComboBoxFor(30);
+        month = "04";
+    }
+
+    @FXML
+    private void mayMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("MAY");
+        populateDayComboBoxFor(31);
+        month = "05";
+    }
+
+    @FXML
+    private void junMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("JUNE");
+        populateDayComboBoxFor(30);
+        month = "06";
+    }
+
+    @FXML
+    private void julMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("JULY");
+        populateDayComboBoxFor(31);
+        month = "07";
+    }
+
+    @FXML
+    private void augMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("AUGUST");
+        populateDayComboBoxFor(31);
+        month = "08";
+    }
+
+    @FXML
+    private void sepMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("SEPTEMBER");
+        populateDayComboBoxFor(30);
+        month = "09";
+    }
+
+    @FXML
+    private void octMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("OCTOBER");
+        populateDayComboBoxFor(31);
+        month = "10";
+    }
+
+    @FXML
+    private void novMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("NOVEMBER");
+        populateDayComboBoxFor(30);
+        month = "11";
+    }
+
+    @FXML
+    private void decMenuItemHandler(ActionEvent event) {
+        monthMenuButton.setText("DECEMBER");
+        populateDayComboBoxFor(31);
+        month = "12";
+    }
+    
+    //Populates day combo box with number of given days
+    private void populateDayComboBoxFor(int days){
+        dayComboBox.getItems().clear();
+        for(int x=1;x<=days;x++){
+            dayComboBox.getItems().add(Integer.toString(x));
+        }
     }
     
 }

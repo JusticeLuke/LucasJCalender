@@ -3,6 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -18,12 +20,27 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <ComboBox fx:id="monthComboBox" layoutX="113.0" layoutY="117.0" prefHeight="27.0" prefWidth="114.0" promptText="JANUARY" />
       <ComboBox fx:id="dayComboBox" layoutX="247.0" layoutY="117.0" prefHeight="27.0" prefWidth="57.0" promptText="1" />
       <ComboBox fx:id="startComboBox" layoutX="119.0" layoutY="74.0" prefHeight="27.0" prefWidth="80.0" promptText="8AM" />
       <ComboBox fx:id="endComboBox" layoutX="224.0" layoutY="74.0" prefHeight="27.0" prefWidth="80.0" promptText="5PM" />
       <Label layoutX="69.0" layoutY="79.0" text="Length:" />
       <Label layoutX="205.0" layoutY="79.0" text="to" />
       <TextField fx:id="yearTextField" layoutX="5.0" layoutY="118.0" prefHeight="25.0" prefWidth="92.0" promptText="YEAR" />
+      <MenuButton fx:id="monthMenuButton" layoutX="125.0" layoutY="118.0" mnemonicParsing="false" text="MONTH">
+        <items>
+          <MenuItem fx:id="janMenuItem" mnemonicParsing="false" onAction="#janMenuItemHandler" text="JANUARY" />
+          <MenuItem fx:id="febMenuItem" mnemonicParsing="false" onAction="#febMenuItemHandler" text="FEBUARY" />
+            <MenuItem fx:id="marMenuItem" mnemonicParsing="false" onAction="#marMenuItemHandler" text="MARCH" />
+            <MenuItem fx:id="aprMenuItem" mnemonicParsing="false" onAction="#aprMenuItemHandler" text="APRIL" />
+            <MenuItem fx:id="mayMenuItem" mnemonicParsing="false" onAction="#mayMenuItemHandler" text="MAY" />
+            <MenuItem fx:id="junMenuItem" mnemonicParsing="false" onAction="#junMenuItemHandler" text="JUNE" />
+            <MenuItem fx:id="julMenuItem" mnemonicParsing="false" onAction="#julMenuItemHandler" text="JULY" />
+            <MenuItem fx:id="augMenuItem" mnemonicParsing="false" onAction="#augMenuItemHandler" text="AUGUST" />
+            <MenuItem fx:id="sepMenuItem" mnemonicParsing="false" onAction="#sepMenuItemHandler" text="SEPTEMBER" />
+            <MenuItem fx:id="octMenuItem" mnemonicParsing="false" onAction="#octMenuItemHandler" text="OCTOBER" />
+            <MenuItem fx:id="novMenuItem" mnemonicParsing="false" onAction="#novMenuItemHandler" text="NOVEMBER" />
+            <MenuItem fx:id="decMenuItem" mnemonicParsing="false" onAction="#decMenuItemHandler" text="DECEMBER" />
+        </items>
+      </MenuButton>
    </children>
 </AnchorPane>

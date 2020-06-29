@@ -25,6 +25,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
@@ -84,9 +85,37 @@ public class scheduleController implements Initializable {
     @FXML
     private Button viewNextButton;
     @FXML
-    private ComboBox<?> monthComboBox;
+    private MenuButton monthMenuButton;
     @FXML
-    private ComboBox<?> viewByComboBox;
+    private MenuItem janMenuItem;
+    @FXML
+    private MenuItem febMenuItem;
+    @FXML
+    private MenuItem marMenuItem;
+    @FXML
+    private MenuItem aprMenuItem;
+    @FXML
+    private MenuItem mayMenuItem;
+    @FXML
+    private MenuItem juneMenuItem;
+    @FXML
+    private MenuItem julyMenuItem;
+    @FXML
+    private MenuItem augMenuItem;
+    @FXML
+    private MenuItem sepMenuItem;
+    @FXML
+    private MenuItem octMenuItem;
+    @FXML
+    private MenuItem novMenuItem;
+    @FXML
+    private MenuItem decMenuItem;
+    @FXML
+    private MenuButton viewByMenuButton;
+    @FXML
+    private MenuItem viewMonthMenuItem;
+    @FXML
+    private MenuItem viewByWeekMenuItem;
     
     
     
@@ -114,6 +143,10 @@ public class scheduleController implements Initializable {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
         customerLinkColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        
+        appointmentTable.setPlaceholder(new Label("No rows to display")); 
+        
+        appointmentTable.setItems(Main.getAppointmentList());
         
     }    
 
@@ -165,23 +198,100 @@ public class scheduleController implements Initializable {
         Scene formScene = new Scene(formScreen);       
         formStage.setScene(formScene);
         
-        AppointmentFormController control = load.<AppointmentFormController>getController();        
-        
-        formStage.show();  
+        AppointmentFormController control = load.<AppointmentFormController>getController(); 
+        if(customerTable.getSelectionModel().getSelectedItem() == null){
+            alertUser("Select the appointment you wish to update.");
+        }else{
+            control.setAppointmentInfo(appointmentTable.getSelectionModel().getSelectedItem());        
+            formStage.show(); 
+        }
     }
 
     @FXML
     private void addAppointmentButtonHandler(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/Viewer/appointmentForm.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/Viewer/appointmentForm.fxml"));
+        Parent formScreen = load.load();
         
-        Scene scene = new Scene(root);
-               
-        Main.stage.setScene(scene);
-        Main.stage.show();
+        Stage formStage = new Stage();
+        Scene formScene = new Scene(formScreen);       
+        formStage.setScene(formScene);
+        
+        AppointmentFormController control = load.<AppointmentFormController>getController(); 
+        if(customerTable.getSelectionModel().getSelectedItem() == null){
+            alertUser("Select the customer you are meeting with from the Customer Table.");
+        }else{
+            control.setAppointmentInfo(customerTable.getSelectionModel().getSelectedItem());        
+            formStage.show(); 
+        }
     }
 
     @FXML
     private void deleteAppointmentButtonHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void janMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void febMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void marMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void aprMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void mayMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void juneMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void julyMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void augMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void sepMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void octMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void novMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void decMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void viewMonthMenuItemHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void viewByWeekMenuItemHandler(ActionEvent event) {
+    }
+    
+    private void alertUser(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error Found");
+        alert.setHeaderText(null);
+        alert.setContentText(message);//Displays error string from inputValidation
+
+        alert.showAndWait();   
     }
     
     
