@@ -37,7 +37,7 @@ public class Main extends Application {
     public static Stage stage = new Stage();
     private static Parent root;
     
-    private static String currentUser;
+    private static String currentUser = "test";
     private static int userId = 1;
     
     @Override
@@ -93,6 +93,7 @@ public class Main extends Application {
     
     //Query database for customer's appointments then add them to the customer's appointment list and the allAppointment's list
     private void grabAppointments(Customer customer) throws SQLException{
+        int appointmentId;
         String type;
         String user;
         String start;
@@ -102,7 +103,7 @@ public class Main extends Application {
         String day;
         
         Connection conn = Connect.getConnection();
-        String selectStatement = "SELECT appointment.type, appointment.userId, appointment.start, appointment.end, user.userName "
+        String selectStatement = "SELECT appointment.appointmentId, appointment.type, appointment.userId, appointment.start, appointment.end, user.userName "
                 + "FROM appointment "
                 + "INNER JOIN user ON appointment.userId = user.userId "
                 + "WHERE customerId = "+ customer.getCustomerId()+";";
@@ -116,6 +117,7 @@ public class Main extends Application {
         
         Appointment appointment;
         while(rs.next()){
+            appointmentId = rs.getInt("appointmentId");
             type = rs.getString("type");
             start = rs.getString("start");
             start = start.substring(start.indexOf(" ")+1, start.indexOf(":"));
@@ -128,7 +130,7 @@ public class Main extends Application {
             day = rs.getString("start");
             day = day.substring(8,10);
             user = rs.getString("userName");
-            appointment = new Appointment(customer, type, user, start, end, year, month, day, false);
+            appointment = new Appointment(customer, appointmentId, type, user, start, end, year, month, day, false);
             customer.addAppointment(appointment);
             Main.addToAppointmentList(appointment);
         }
@@ -160,16 +162,12 @@ public class Main extends Application {
         return true;
     }
     
-    public static void updateCustomer(Customer customer, String country, String city, String address, String phone, String postalCode, String customerName) {
-        customer.setCity(city);
-        customer.setCountry(country);
-        customer.setName(customerName);
-        customer.setPhone(phone);
-        customer.setPostalCode(postalCode);
-        customer.setAddress(address);
-        
+    public static void updateTable() {
+
         TableView customerTable = (TableView) root.lookup("#customerTable");
+        TableView appointmentTable = (TableView) root.lookup("#appointmentTable");
         customerTable.refresh();
+        appointmentTable.refresh();
         
     }
     
@@ -216,9 +214,17 @@ public class Main extends Application {
     public static void setUserId(int id){
         userId = id;
     }
+
+    public static void setUserName(String user){
+        currentUser = user;
+    }
     
     //Returns user id. Used     
     public static int getUserId(){
         return userId;
-    }    
+    }
+
+    public static String getUserName(){
+        return currentUser;
+    }
 }

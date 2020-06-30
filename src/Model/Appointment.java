@@ -16,6 +16,7 @@ import util.Connect;
  */
 public class Appointment {
     private Customer customer;
+    private int appointmentId;
     private String type;
     private String user;    
     private String start;
@@ -27,8 +28,9 @@ public class Appointment {
     private int endHour;
     
     
-    public Appointment(Customer customer,String type, String user, String start, String end, String year, String month, String day, boolean newAppointment) throws SQLException{
+    public Appointment(Customer customer, int appointmentId, String type, String user, String start, String end, String year, String month, String day, boolean newAppointment) throws SQLException{
         this.customer = customer;
+        this.appointmentId = appointmentId;
         this.type = type;
         this.user = user;        
         this.start = start;
@@ -42,7 +44,47 @@ public class Appointment {
         
         if(newAppointment)
             addAppointmentToDatabase();
-    }    
+    }
+
+    public boolean addAppointmentToDatabase() throws SQLException{
+        //Formated start and end time to work with database
+        String startTime = year+"-"+month+"-"+day+" "+start+":00:00";
+        String endTime = year+"-"+month+"-"+day+" "+end+":00:00";
+
+        Connection conn = Connect.getConnection();//Get Connection
+
+        String insertStatement = "INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) "
+                + "VALUES (?, ?, '', '', '', '', ?, '', ?, ?, now(), 'admin', now(), 'admin'); ";//Insert customerId(1) value
+
+        PreparedStatement ps = conn.prepareStatement(insertStatement);
+        ps.setInt(1,customer.getCustomerId());
+        ps.setInt(2, Main.getUserId());
+        ps.setString(3, type);
+        ps.setString(4, startTime);
+        ps.setString(5, endTime);
+        ps.execute();
+
+
+        return true;
+    }
+
+    public boolean updateAppointment(String type, String user, String start, String end, String year, String month, String day) throws SQLException{
+        String startTime = year+"-"+month+"-"+day+" "+start+":00:00";
+        String endTime = year+"-"+month+"-"+day+" "+end+":00:00";
+
+        Connection conn = Connect.getConnection();
+        String updateStatement = "UPDATE appointment SET type = ?, start = ?, end = ?, lastUpdate = NOW(), lastUpdateBy = ?) "
+                + "WHERE appointmentId = ?; "; //Insert customerId(1) value
+
+        PreparedStatement ps = conn.prepareStatement(updateStatement);
+        ps.setString(1,type);
+        ps.setString(2,startTime);
+        ps.setString(3,endTime);
+        ps.setString(4,Main.getUserName());
+
+        ps.execute();
+        return true;
+    }
     
 
     public void setCustomer(Customer customer){
@@ -69,6 +111,14 @@ public class Appointment {
         this.day = day;
     }
 
+    public void setMonth(String month){
+        this.month = month;
+    }
+
+    public void setYear(String year){
+        this.year = year;
+    }
+
     public Customer getCustomer(){
         return customer;
     }
@@ -93,26 +143,15 @@ public class Appointment {
         return day;
     }
 
-    private boolean addAppointmentToDatabase() throws SQLException{
-        //Formated start and end time to work with database
-        String startTime = year+"-"+month+"-"+day+" "+start+":00:00";
-        String endTime = year+"-"+month+"-"+day+" "+end+":00:00";
-        System.out.println(startTime);
-        System.out.println(endTime);
-        Connection conn = Connect.getConnection();//Get Connection
-            
-        String insertStatement = "INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) "
-            + "VALUES (?, ?, '', '', '', '', ?, '', ?, ?, now(), 'admin', now(), 'admin'); ";//Insert customerId(1) value          
-                    
-        PreparedStatement ps = conn.prepareStatement(insertStatement);
-        ps.setInt(1,customer.getCustomerId());
-        ps.setInt(2, Main.getUserId());
-        ps.setString(3, type);
-        ps.setString(4, startTime);
-        ps.setString(5, endTime);
-        ps.execute();
-        return true;
+    public String getMonth(){
+        return month;
     }
+
+    public String getYear(){
+        return year;
+    }
+
+
     
     
 }

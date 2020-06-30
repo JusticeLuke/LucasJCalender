@@ -199,7 +199,7 @@ public class scheduleController implements Initializable {
         formStage.setScene(formScene);
         
         AppointmentFormController control = load.<AppointmentFormController>getController(); 
-        if(customerTable.getSelectionModel().getSelectedItem() == null){
+        if(appointmentTable.getSelectionModel().getSelectedItem() == null){
             alertUser("Select the appointment you wish to update.");
         }else{
             control.setAppointmentInfo(appointmentTable.getSelectionModel().getSelectedItem());        

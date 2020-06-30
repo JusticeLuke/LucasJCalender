@@ -83,6 +83,7 @@ public class AppointmentFormController implements Initializable {
     String errorString;
     private boolean updatingAppointment = false;
     Customer customer;
+    Appointment appointment;
     String user;    
     
     /**
@@ -127,11 +128,11 @@ public class AppointmentFormController implements Initializable {
         day = dayComboBox.getValue();
         
         Alert alert;
-        Appointment appointment;
+
         
         if(inputValidation()){
             if(!updatingAppointment){
-                appointment = new Appointment(customer, type, user, start, end, year, month, day, true);//Create new appointment
+                appointment = new Appointment(customer, 0, type, user, start, end, year, month, day, true);//Create new appointment
                 
                 alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("New Record Created");
@@ -141,7 +142,7 @@ public class AppointmentFormController implements Initializable {
                 alert.showAndWait();
                 cancelButtonHandler(event);
             }else if(updatingAppointment){     
-                
+               appointment.updateAppointment(type, user, start, end, year, month, day);
                 
                 cancelButtonHandler(event);
             }
@@ -172,7 +173,11 @@ public class AppointmentFormController implements Initializable {
     
     //Takes appointment and populates appointment form text fields and menus with the appointment's variables
     public void setAppointmentInfo(Appointment appointment){
-        
+        updatingAppointment = true;
+        this.appointment = appointment;
+
+        typeTextField.setText(appointment.getType());
+        yearTextField.setText(appointment.getYear());
           
     }
 

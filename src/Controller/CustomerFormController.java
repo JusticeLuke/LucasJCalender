@@ -56,6 +56,7 @@ public class CustomerFormController implements Initializable {
     
     String errorString;
     boolean updatingCustomer = false;
+    Customer customer;
 
     /**
      * Initializes the controller class.
@@ -75,7 +76,7 @@ public class CustomerFormController implements Initializable {
         city = cityTextField.getText().trim();
         
         Alert alert;//Alert window to display info and input errors
-        Customer customer;
+
         
         if(inputValidation()){
             if(!updatingCustomer){
@@ -88,8 +89,7 @@ public class CustomerFormController implements Initializable {
 
                 alert.showAndWait();
                 cancelButtonHandler(event);
-            }else if(updatingCustomer){     
-                customer = Main.lookupCustomer(customerId);
+            }else if(updatingCustomer){
                 customer.updateCustomer(country, city, address, phone, postalCode, name);
                 
                 cancelButtonHandler(event);
@@ -118,6 +118,7 @@ public class CustomerFormController implements Initializable {
     //If updating a customer passes the customer object, and sets it variables to the apporiate text fields.
     void setCustomerInfo(Customer customer){
         updatingCustomer = true;
+        this.customer = customer;
         customerId = customer.getCustomerId();
 
         firstNameTextField.setText(customer.getName().substring(0,customer.getName().indexOf(" ")));  

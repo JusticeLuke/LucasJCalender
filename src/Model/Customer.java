@@ -87,6 +87,17 @@ public class Customer {
             ps.setString(1, name);
 
             ps.execute();
+
+            //Incase the customer is new this grabs the customerId and updates it from 0
+            String selectStatement = "SELECT customerId from customer WHERE customerId = LAST_INSERT_ID();";
+
+            ps = conn.prepareStatement(selectStatement);
+            ps.execute();
+
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()){
+                customerId = rs.getInt("customerId");
+            }
             
             return true;
         } catch (SQLException e) {
@@ -148,10 +159,18 @@ public class Customer {
             ps.setString(2,address);
             ps.setString(3,postalCode);
             ps.setString(4,phone);
-            ps.setString(5,Integer.toString(customerId));            
+            ps.setString(5,Integer.toString(customerId));
             ps.execute();
-            
-            Main.updateCustomer(this, country, city, address, phone, postalCode, customerName);
+
+            setCity(city);
+            setCountry(country);
+            setName(customerName);
+            setPhone(phone);
+            setPostalCode(postalCode);
+            setAddress(address);
+
+            Main.updateTable();
+
             return true;
             
         }catch (SQLException e) {
