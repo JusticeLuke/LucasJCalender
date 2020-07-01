@@ -116,6 +116,12 @@ public class scheduleController implements Initializable {
     private MenuItem viewMonthMenuItem;
     @FXML
     private MenuItem viewByWeekMenuItem;
+    @FXML
+    private Button goButton;
+    @FXML
+    private Button viewAppointments;
+    @FXML
+    private Button viewAllAppointmentsButton;
     
     
     
@@ -296,6 +302,22 @@ public class scheduleController implements Initializable {
         alert.setContentText(message);//Displays error string from inputValidation
 
         alert.showAndWait();   
+    }
+
+    @FXML
+    private void goButtonHandler(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void viewAppointmentsButtonHandler(ActionEvent event) {
+        Customer customer = customerTable.getSelectionModel().getSelectedItem();
+        appointmentTable.setItems(customer.getAppointments());
+    }
+
+    @FXML
+    private void viewAllAppointmentsButtonHandler(ActionEvent event) {
+        appointmentTable.setItems(Main.getAppointmentList());
     }
     
     

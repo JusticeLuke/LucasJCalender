@@ -182,9 +182,6 @@ public class Appointment {
 
     public String getYear(){
         return year;
-    }
-
-
-    
+    }    
     
 }
