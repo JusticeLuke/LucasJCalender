@@ -108,7 +108,9 @@ public class CustomerFormController implements Initializable {
         boolean valid = true;
         
         name = firstNameTextField.getText().trim() + " " + lastNameTextField.getText().trim();
+        
         phone = phoneTextField.getText().trim();
+        phone = phone.replaceAll("-", "");//Removes all dashes from the phone string. They are added back after the string in checked for errors
         address = streetNumberTextField.getText().trim() + " " + streetNameTextField.getText().trim();
         String streetNum = streetNumberTextField.getText().trim();
         String streetName = streetNameTextField.getText().trim();
@@ -121,15 +123,19 @@ public class CustomerFormController implements Initializable {
             valid = false;                  
         }
         
+        System.out.println("Phone: "+phone);
+        System.out.println("Street Number: "+streetNum);
+        System.out.println("Postal: "+postalCode);
         //Checks if postal code and street num contain only numbers
         try{
-            int phoneNum = Integer.parseInt(phone);
-            if(String.valueOf(phoneNum).length() != 10){
-                errorString += "Phone numbers have 10 digits."
+                      
+            if(String.valueOf(phone).length() != 10){
+                errorString += "Phone numbers have 10 digits.\n";
+                
             }
             int postal = Integer.parseInt(postalCode);
             if(String.valueOf(postal).length() != 5 || postal < 0){
-                errorString += "Postal codes must have 5 digits, and cannot be negative\n";
+                errorString += "Postal codes must have 5 digits, and cannot be negative.\n";
                 valid = false;
             }
             int stNum = Integer.parseInt(streetNum);
@@ -139,12 +145,12 @@ public class CustomerFormController implements Initializable {
         }
         
         //Checks if city and country fields contain only letters
-        if(city.chars().allMatch(Character::isLetter) || country.chars().allMatch(Character::isLetter)){
+        if(!city.chars().allMatch(Character::isLetter) || !country.chars().allMatch(Character::isLetter)){
             errorString += "City and country should only contain letters.\n";
             valid = false;
         }
         
-        
+        phone = phone.substring(0,3)+"-"+phone.substring(3,6)+"-"+phone.substring(6);//Returns or places dashes into phone number
         
         return valid;
        

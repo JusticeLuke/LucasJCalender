@@ -183,13 +183,14 @@ public class Customer {
     public boolean removeCustomer(){
         try {
             Connection conn = Connect.getConnection();
-            
+            System.out.println(customerId);
             String updateStatement = "UPDATE customer SET active = 0 WHERE customerId = " + customerId;//Insert customerName(6) value
             
             PreparedStatement ps = conn.prepareStatement(updateStatement);
             ps.execute();
             
             Main.removeCustomer(this);
+            Main.updateTable();
             
             return true;
             

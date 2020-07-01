@@ -172,8 +172,13 @@ public class Main extends Application {
     }
     
     public static boolean removeCustomer(Customer customer){
-        customer.removeCustomer();
         allCustomers.remove(customer);
+        return true;
+    }
+    
+    //Removes appointment from allAppointment list. Should only be called from inside the appointment class's removeAppointment method
+    public static boolean removeAppointment(Appointment appointment){
+        allAppointments.remove(appointment);
         return true;
     }
     

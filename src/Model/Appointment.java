@@ -5,9 +5,12 @@
  */
 package Model;
 
+import Controller.scheduleController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.Connect;
 
 /**
@@ -91,9 +94,31 @@ public class Appointment {
         this.month = month;
         this.day = day;
         
+        Main.updateTable();
+        
         return true;
     }
     
+    public boolean removeAppointment(){
+        try {
+            Connection conn = Connect.getConnection();
+            
+            String updateStatement = "DELETE FROM appointment WHERE appointmentId = " + appointmentId;//Insert customerName(6) value
+            
+            PreparedStatement ps = conn.prepareStatement(updateStatement);
+            ps.execute();
+            
+            Main.removeAppointment(this);
+            customer.removeAppointment(this);
+            Main.updateTable();
+
+            return true;
+            
+        }catch (SQLException e) {
+            Logger.getLogger(scheduleController.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return true;
+    }
 
     public void setCustomer(Customer customer){
         this.customer = customer;

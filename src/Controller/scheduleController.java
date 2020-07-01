@@ -180,6 +180,8 @@ public class scheduleController implements Initializable {
     //Delete selected appointment
     @FXML
     private void deleteCustomerButtonHandler(ActionEvent event) {
+        Customer customer = customerTable.getSelectionModel().getSelectedItem();
+        customer.removeCustomer();
     }
 
     
@@ -227,6 +229,8 @@ public class scheduleController implements Initializable {
 
     @FXML
     private void deleteAppointmentButtonHandler(ActionEvent event) {
+        Appointment appointment = appointmentTable.getSelectionModel().getSelectedItem();
+        appointment.removeAppointment();
     }
 
     @FXML
