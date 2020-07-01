@@ -80,7 +80,7 @@ public class AppointmentFormController implements Initializable {
     String month;
     String day;
     
-    String errorString;
+    String errorString = "";
     private boolean updatingAppointment = false;
     Customer customer;
     Appointment appointment;
@@ -120,15 +120,8 @@ public class AppointmentFormController implements Initializable {
     }    
 
     @FXML
-    private void saveButtonHandler(ActionEvent event) throws SQLException {
-        type = typeTextField.getText();
-        start = startComboBox.getValue().toString();  
-        end = endComboBox.getValue().toString();
-        year = yearTextField.getText();        
-        day = dayComboBox.getValue();
-        
+    private void saveButtonHandler(ActionEvent event) throws SQLException {        
         Alert alert;
-
         
         if(inputValidation()){
             if(!updatingAppointment){
@@ -160,7 +153,33 @@ public class AppointmentFormController implements Initializable {
     private void cancelButtonHandler(ActionEvent event) {
     }
     
+    //Checks input of form, sets a warning message and returns true if their are no errors 
     private boolean inputValidation(){
+        type = typeTextField.getText().trim();
+          
+        
+        year = yearTextField.getText().trim(); 
+        day = dayComboBox.getValue();
+        
+        start = startComboBox.getValue();
+        end = endComboBox.getValue();
+        
+        
+        if( day == null || year.equals("") || year == null || type.equals("") || type == null || start.equals("start") || end.equals("end") || day.equals("day") || month == null){
+            errorString += "Please fill out all fields before saving.\n";
+            return false;
+        }
+        
+        try{
+            int x = Integer.parseInt(year);
+            if(x>2022 || x<2019){
+                errorString += "Please insert a valid year between 2019 and 2022.\n";
+            }
+        }catch (NumberFormatException e){
+            errorString += "Please insert a valid year between 2019 and 2022.\n";
+            return false;
+        }
+        
         start = start.substring(0,2);
         end = end.substring(0,2);
         return true;

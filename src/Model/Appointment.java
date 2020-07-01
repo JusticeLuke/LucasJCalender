@@ -83,6 +83,14 @@ public class Appointment {
         ps.setString(4,Main.getUserName());
 
         ps.execute();
+        
+        this.type = type;
+        this.start = start;
+        this.end = end;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        
         return true;
     }
     

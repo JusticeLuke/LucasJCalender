@@ -6,7 +6,6 @@
 package Controller;
 
 import Model.Customer;
-import Model.Main;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -54,7 +53,7 @@ public class CustomerFormController implements Initializable {
     String city;
     int customerId;
     
-    String errorString;
+    String errorString = "";
     boolean updatingCustomer = false;
     Customer customer;
 
@@ -67,16 +66,9 @@ public class CustomerFormController implements Initializable {
     }    
 
     @FXML
-    private void saveButtonHandler(ActionEvent event) {
-        name = firstNameTextField.getText().trim() + " " + lastNameTextField.getText().trim();
-        phone = phoneTextField.getText().trim();
-        address = streetNumberTextField.getText().trim() + " " + streetNameTextField.getText().trim();
-        postalCode = postalTextField.getText().trim();
-        country = countryTextField.getText().trim();
-        city = cityTextField.getText().trim();
+    private void saveButtonHandler(ActionEvent event) {        
         
         Alert alert;//Alert window to display info and input errors
-
         
         if(inputValidation()){
             if(!updatingCustomer){
@@ -100,7 +92,8 @@ public class CustomerFormController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText(errorString);//Displays error string from inputValidation
 
-            alert.showAndWait();        
+            alert.showAndWait();  
+            errorString = "";
         }        
     }
     
@@ -112,7 +105,49 @@ public class CustomerFormController implements Initializable {
     
     //Checks if all text fields provided a valid input, and creates an error string that displays when the user attempts to save the data
     private boolean inputValidation(){
-        return true;
+        boolean valid = true;
+        
+        name = firstNameTextField.getText().trim() + " " + lastNameTextField.getText().trim();
+        phone = phoneTextField.getText().trim();
+        address = streetNumberTextField.getText().trim() + " " + streetNameTextField.getText().trim();
+        String streetNum = streetNumberTextField.getText().trim();
+        String streetName = streetNameTextField.getText().trim();
+        postalCode = postalTextField.getText().trim();
+        country = countryTextField.getText().trim();
+        city = cityTextField.getText().trim();
+        
+        if(name.equals("") || phone.equals("") || streetNum.equals("") || streetName.equals("") || postalCode.equals("") || country.equals("") || city.equals("")){
+            errorString += "Please fill out all fields.\n";
+            valid = false;                  
+        }
+        
+        //Checks if postal code and street num contain only numbers
+        try{
+            int phoneNum = Integer.parseInt(phone);
+            if(String.valueOf(phoneNum).length() != 10){
+                errorString += "Phone numbers have 10 digits."
+            }
+            int postal = Integer.parseInt(postalCode);
+            if(String.valueOf(postal).length() != 5 || postal < 0){
+                errorString += "Postal codes must have 5 digits, and cannot be negative\n";
+                valid = false;
+            }
+            int stNum = Integer.parseInt(streetNum);
+        }catch(NumberFormatException e){
+            errorString += "Phone number, street number and postal code must contain only numbers.\n";
+            valid = false;
+        }
+        
+        //Checks if city and country fields contain only letters
+        if(city.chars().allMatch(Character::isLetter) || country.chars().allMatch(Character::isLetter)){
+            errorString += "City and country should only contain letters.\n";
+            valid = false;
+        }
+        
+        
+        
+        return valid;
+       
     }
     
     //If updating a customer passes the customer object, and sets it variables to the apporiate text fields.
