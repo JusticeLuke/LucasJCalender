@@ -10,9 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Locale;
+import java.util.MissingResourceException;
 import util.Connect;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,7 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Controller.scheduleController;
+import java.util.ResourceBundle;
 import javafx.scene.control.TableView;
 import util.DBQuery;
 
@@ -56,6 +55,16 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
+        try{
+     
+        ResourceBundle rb = ResourceBundle.getBundle("/util/localization/Nat", Locale.getDefault());
+        System.out.println("howowow");
+        if(Locale.getDefault().getLanguage().equals("de") || Locale.getDefault().getLanguage().equals("es")){
+            System.out.println(rb.getString("month"));
+        }
+        }catch(MissingResourceException e){
+            System.out.println("Expected don't worry bout it: " + e.getMessage());
+        }
         Connection conn = Connect.startConnection();             
         
         launch(args);
@@ -124,7 +133,7 @@ public class Main extends Application {
             end = rs.getString("end");
             end = end.substring(end.indexOf(" ")+1, end.indexOf(":"));
             year = rs.getString("start");
-            year = year.substring(0,5);
+            year = year.substring(0,4);
             month = rs.getString("start");
             month = month.substring(5,7);
             day = rs.getString("start");

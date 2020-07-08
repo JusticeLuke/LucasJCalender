@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
@@ -22,6 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import Model.Customer;
 import Model.Main;
 import java.io.IOException;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -85,32 +86,6 @@ public class scheduleController implements Initializable {
     @FXML
     private Button viewNextButton;
     @FXML
-    private MenuButton monthMenuButton;
-    @FXML
-    private MenuItem janMenuItem;
-    @FXML
-    private MenuItem febMenuItem;
-    @FXML
-    private MenuItem marMenuItem;
-    @FXML
-    private MenuItem aprMenuItem;
-    @FXML
-    private MenuItem mayMenuItem;
-    @FXML
-    private MenuItem juneMenuItem;
-    @FXML
-    private MenuItem julyMenuItem;
-    @FXML
-    private MenuItem augMenuItem;
-    @FXML
-    private MenuItem sepMenuItem;
-    @FXML
-    private MenuItem octMenuItem;
-    @FXML
-    private MenuItem novMenuItem;
-    @FXML
-    private MenuItem decMenuItem;
-    @FXML
     private MenuButton viewByMenuButton;
     @FXML
     private MenuItem viewMonthMenuItem;
@@ -122,7 +97,10 @@ public class scheduleController implements Initializable {
     private Button viewAppointments;
     @FXML
     private Button viewAllAppointmentsButton;
+    @FXML
+    private ComboBox<String> monthComboBox;
     
+    FilteredList<Appointment> filteredAllAppointments = new FilteredList<>(Main.getAppointmentList(), p -> true);
     
     
     
@@ -130,6 +108,21 @@ public class scheduleController implements Initializable {
     //Populates customer and appointment tables with current data
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Populate month combo box
+        monthComboBox.getItems().add("January");
+        monthComboBox.getItems().add("Febuary");
+        monthComboBox.getItems().add("March");
+        monthComboBox.getItems().add("April");
+        monthComboBox.getItems().add("May");
+        monthComboBox.getItems().add("June");
+        monthComboBox.getItems().add("July");
+        monthComboBox.getItems().add("August");
+        monthComboBox.getItems().add("September");
+        monthComboBox.getItems().add("October");
+        monthComboBox.getItems().add("November");
+        monthComboBox.getItems().add("December");
+        
+        
         //Populate customer table
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -152,7 +145,10 @@ public class scheduleController implements Initializable {
         
         appointmentTable.setPlaceholder(new Label("No rows to display")); 
         
-        appointmentTable.setItems(Main.getAppointmentList());
+        SortedList<Appointment> sortedAppointment = new SortedList<>(filteredAllAppointments);
+        sortedAppointment.comparatorProperty().bind(appointmentTable.comparatorProperty());
+        
+        appointmentTable.setItems(sortedAppointment);
         
     }    
 
@@ -239,53 +235,6 @@ public class scheduleController implements Initializable {
         appointment.removeAppointment();
     }
 
-    @FXML
-    private void janMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void febMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void marMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void aprMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void mayMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void juneMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void julyMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void augMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void sepMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void octMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void novMenuItemHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void decMenuItemHandler(ActionEvent event) {
-    }
 
     @FXML
     private void viewMonthMenuItemHandler(ActionEvent event) {
@@ -306,6 +255,14 @@ public class scheduleController implements Initializable {
 
     @FXML
     private void goButtonHandler(ActionEvent event) {
+        filteredAllAppointments.setPredicate(appointment -> {
+                      System.out.println("String: "+Integer.parseInt(appointment.getMonth()) + " Index: " + monthComboBox.getSelectionModel().getSelectedIndex() + " Year: "+appointment.getYear());
+            if(Integer.parseInt(appointment.getMonth()) == monthComboBox.getSelectionModel().getSelectedIndex()+1 && appointment.getYear().equals(yearTextField.getText().trim())){
+                return true;
+            }            
+            
+            return false;
+        });
         
     }
 
@@ -313,11 +270,13 @@ public class scheduleController implements Initializable {
     private void viewAppointmentsButtonHandler(ActionEvent event) {
         Customer customer = customerTable.getSelectionModel().getSelectedItem();
         appointmentTable.setItems(customer.getAppointments());
+        customerInfoLabel.setText(customer.getName()+"'s Appointments");
     }
 
     @FXML
     private void viewAllAppointmentsButtonHandler(ActionEvent event) {
         appointmentTable.setItems(Main.getAppointmentList());
+        customerInfoLabel.setText("All Customer Appointments");
     }
     
     
