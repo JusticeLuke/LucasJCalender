@@ -84,6 +84,8 @@ public class scheduleController implements Initializable {
     @FXML
     private Label customerInfoLabel;
     @FXML
+    private Label customerTableLabel;
+    @FXML
     private Button viewNextButton;
     @FXML
     private MenuButton viewByMenuButton;
@@ -108,19 +110,43 @@ public class scheduleController implements Initializable {
     //Populates customer and appointment tables with current data
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Set button, label, and items text with localized string
+        monthComboBox.setPromptText(Main.rb.getString("month"));
+        viewByMenuButton.setText(Main.rb.getString("view"));
+        viewByWeekMenuItem.setText(Main.rb.getString("week"));
+        viewMonthMenuItem.setText(Main.rb.getString("month"));
+        goButton.setText(Main.rb.getString("go"));
+        updateCustomerButton.setText(Main.rb.getString("update"));
+        updateAppointmentButton.setText(Main.rb.getString("update"));
+        viewNextButton.setText(Main.rb.getString("next"));
+        viewAppointments.setText(Main.rb.getString("view")+" "+Main.rb.getString("appointments"));
+        viewAllAppointmentsButton.setText(Main.rb.getString("all")+" "+Main.rb.getString("view")+" "+Main.rb.getString("appointments"));
+        customerTableLabel.setText(Main.rb.getString("customer"));
+        nameColumn.setText(Main.rb.getString("name"));
+        phoneColumn.setText(Main.rb.getString("phone"));
+        addressColumn.setText(Main.rb.getString("address"));
+
+        typeColumn.setText(Main.rb.getString("type"));
+        consultantColumn.setText(Main.rb.getString("consultant"));
+        cityColumn.setText(Main.rb.getString("city"));
+        customerLinkColumn.setText(Main.rb.getString("customer")+" "+Main.rb.getString("link"));
+        startTmeColumn.setText(Main.rb.getString("start"));
+        endTimeColumn.setText(Main.rb.getString("end"));
+        dayColumn.setText(Main.rb.getString("day"));
+
         //Populate month combo box
-        monthComboBox.getItems().add("January");
-        monthComboBox.getItems().add("Febuary");
-        monthComboBox.getItems().add("March");
-        monthComboBox.getItems().add("April");
-        monthComboBox.getItems().add("May");
-        monthComboBox.getItems().add("June");
-        monthComboBox.getItems().add("July");
-        monthComboBox.getItems().add("August");
-        monthComboBox.getItems().add("September");
-        monthComboBox.getItems().add("October");
-        monthComboBox.getItems().add("November");
-        monthComboBox.getItems().add("December");
+        monthComboBox.getItems().add(Main.rb.getString("january"));
+        monthComboBox.getItems().add(Main.rb.getString("february"));
+        monthComboBox.getItems().add(Main.rb.getString("march"));
+        monthComboBox.getItems().add(Main.rb.getString("april"));
+        monthComboBox.getItems().add(Main.rb.getString("may"));
+        monthComboBox.getItems().add(Main.rb.getString("june"));
+        monthComboBox.getItems().add(Main.rb.getString("july"));
+        monthComboBox.getItems().add(Main.rb.getString("august"));
+        monthComboBox.getItems().add(Main.rb.getString("september"));
+        monthComboBox.getItems().add(Main.rb.getString("october"));
+        monthComboBox.getItems().add(Main.rb.getString("november"));
+        monthComboBox.getItems().add(Main.rb.getString("december"));
         
         
         //Populate customer table
@@ -131,7 +157,7 @@ public class scheduleController implements Initializable {
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
      
-        customerTable.setPlaceholder(new Label("No rows to display")); 
+        customerTable.setPlaceholder(new Label(Main.rb.getString("NoRowsToDisplay")));
         
         customerTable.setItems(Main.getCustomerList());
         
@@ -143,7 +169,7 @@ public class scheduleController implements Initializable {
         consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
         customerLinkColumn.setCellValueFactory(new PropertyValueFactory<>(""));
         
-        appointmentTable.setPlaceholder(new Label("No rows to display")); 
+        appointmentTable.setPlaceholder(new Label(Main.rb.getString("NoRowsToDisplay")));
         
         SortedList<Appointment> sortedAppointment = new SortedList<>(filteredAllAppointments);
         sortedAppointment.comparatorProperty().bind(appointmentTable.comparatorProperty());
@@ -238,6 +264,7 @@ public class scheduleController implements Initializable {
 
     @FXML
     private void viewMonthMenuItemHandler(ActionEvent event) {
+
     }
 
     @FXML
@@ -246,7 +273,7 @@ public class scheduleController implements Initializable {
     
     private void alertUser(String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error Found");
+        alert.setTitle(Main.rb.getString("ErrorFound"));
         alert.setHeaderText(null);
         alert.setContentText(message);//Displays error string from inputValidation
 
@@ -256,7 +283,6 @@ public class scheduleController implements Initializable {
     @FXML
     private void goButtonHandler(ActionEvent event) {
         filteredAllAppointments.setPredicate(appointment -> {
-                      System.out.println("String: "+Integer.parseInt(appointment.getMonth()) + " Index: " + monthComboBox.getSelectionModel().getSelectedIndex() + " Year: "+appointment.getYear());
             if(Integer.parseInt(appointment.getMonth()) == monthComboBox.getSelectionModel().getSelectedIndex()+1 && appointment.getYear().equals(yearTextField.getText().trim())){
                 return true;
             }            
@@ -270,13 +296,13 @@ public class scheduleController implements Initializable {
     private void viewAppointmentsButtonHandler(ActionEvent event) {
         Customer customer = customerTable.getSelectionModel().getSelectedItem();
         appointmentTable.setItems(customer.getAppointments());
-        customerInfoLabel.setText(customer.getName()+"'s Appointments");
+        customerInfoLabel.setText(customer.getName()+"'s "+ Main.rb.getString("appointments"));
     }
 
     @FXML
     private void viewAllAppointmentsButtonHandler(ActionEvent event) {
         appointmentTable.setItems(Main.getAppointmentList());
-        customerInfoLabel.setText("All Customer Appointments");
+        customerInfoLabel.setText(Main.rb.getString("all")+" "+Main.rb.getString("customer")+" "+Main.rb.getString("appointments"));
     }
     
     

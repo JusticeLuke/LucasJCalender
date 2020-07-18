@@ -8,6 +8,8 @@ package Controller;
 import Model.Customer;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Model.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,7 +64,8 @@ public class CustomerFormController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        saveButton.setText(Main.rb.getString("save"));
+        cancelButton.setText(Main.rb.getString("cancel"));
     }    
 
     @FXML
@@ -75,10 +78,9 @@ public class CustomerFormController implements Initializable {
                 customer = new Customer(0, name, phone, address, postalCode, city, country, true);//Create new customer
                 
                 alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("New Record Created");
+                alert.setTitle(Main.rb.getString("NewRecordCreated"));
                 alert.setHeaderText(null);
-                alert.setContentText("A new record has been created and added to the database.");
-
+                alert.setContentText(Main.rb.getString("ANewRecordHasBeenCreatedAndAddedToTheDatabase"));
                 alert.showAndWait();
                 cancelButtonHandler(event);
             }else if(updatingCustomer){
@@ -88,7 +90,7 @@ public class CustomerFormController implements Initializable {
             }
         } else{
             alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Error Found");
+            alert.setTitle(Main.rb.getString("ErrorFound"));
             alert.setHeaderText(null);
             alert.setContentText(errorString);//Displays error string from inputValidation
 
@@ -119,34 +121,32 @@ public class CustomerFormController implements Initializable {
         city = cityTextField.getText().trim();
         
         if(name.equals("") || phone.equals("") || streetNum.equals("") || streetName.equals("") || postalCode.equals("") || country.equals("") || city.equals("")){
-            errorString += "Please fill out all fields.\n";
+            errorString += Main.rb.getString("PleaseFillOutAllFieldsBeforeSaving");
             valid = false;                  
         }
         
-        System.out.println("Phone: "+phone);
-        System.out.println("Street Number: "+streetNum);
-        System.out.println("Postal: "+postalCode);
+
         //Checks if postal code and street num contain only numbers
         try{
                       
             if(String.valueOf(phone).length() != 10){
-                errorString += "Phone numbers have 10 digits.\n";
+                errorString += Main.rb.getString("PhoneNumbersHave10Digits")+"\n";
                 
             }
             int postal = Integer.parseInt(postalCode);
             if(String.valueOf(postal).length() != 5 || postal < 0){
-                errorString += "Postal codes must have 5 digits, and cannot be negative.\n";
+                errorString += Main.rb.getString("PostalCodesMustHave5DigitsAndCannotBeNegative")+"\n";
                 valid = false;
             }
             int stNum = Integer.parseInt(streetNum);
         }catch(NumberFormatException e){
-            errorString += "Phone number, street number and postal code must contain only numbers.\n";
+            errorString += Main.rb.getString("PhoneNumberStreetNumberAndPostalCodeMustContainOnlyNumbers")+"\n";
             valid = false;
         }
         
         //Checks if city and country fields contain only letters
         if(!city.chars().allMatch(Character::isLetter) || !country.chars().allMatch(Character::isLetter)){
-            errorString += "City and country should only contain letters.\n";
+            errorString += Main.rb.getString("CityAndCountryShouldOnlyContainLetters")+"\n";
             valid = false;
         }
         

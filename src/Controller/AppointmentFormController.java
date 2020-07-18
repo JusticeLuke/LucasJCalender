@@ -128,9 +128,9 @@ public class AppointmentFormController implements Initializable {
                 appointment = new Appointment(customer, 0, type, user, start, end, year, month, day, true);//Create new appointment
                 
                 alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("New Record Created");
+                alert.setTitle(Main.rb.getString("NewRecordCreated"));
                 alert.setHeaderText(null);
-                alert.setContentText("A new appoint has been created and added to the database.");
+                alert.setContentText(Main.rb.getString("ANewAppointHasBeenCreatedAndAddedToTheDatabase"));
 
                 alert.showAndWait();
                 cancelButtonHandler(event);
@@ -141,7 +141,7 @@ public class AppointmentFormController implements Initializable {
             }
         } else{
             alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Error Found");
+            alert.setTitle(Main.rb.getString("ErrorFound"));
             alert.setHeaderText(null);
             alert.setContentText(errorString);//Displays error string from inputValidation
 
@@ -166,17 +166,17 @@ public class AppointmentFormController implements Initializable {
         
         
         if( day == null || year.equals("") || year == null || type.equals("") || type == null || start.equals("start") || end.equals("end") || day.equals("day") || month == null){
-            errorString += "Please fill out all fields before saving.\n";
+            errorString += Main.rb.getString("PleaseFillOutAllFieldsBeforeSaving")+"\n";
             return false;
         }
         
         try{
             int x = Integer.parseInt(year);
             if(x>2022 || x<2019){
-                errorString += "Please insert a valid year between 2019 and 2022.\n";
+                errorString += Main.rb.getString("PleaseInsertAvalidYearBetween2019And2022")+"\n";
             }
         }catch (NumberFormatException e){
-            errorString += "Please insert a valid year between 2019 and 2022.\n";
+            errorString += Main.rb.getString("PleaseInsertAvalidYearBetween2019And2022")+"\n";
             return false;
         }
         
@@ -202,7 +202,7 @@ public class AppointmentFormController implements Initializable {
 
     @FXML
     private void janMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("JANUARY");
+        monthMenuButton.setText(Main.rb.getString("january"));
         populateDayComboBoxFor(31);
         month = "01";
     }
@@ -210,7 +210,7 @@ public class AppointmentFormController implements Initializable {
     @FXML
     private void febMenuItemHandler(ActionEvent event) {
        int year = 1;
-       monthMenuButton.setText("FEBUARY");
+       monthMenuButton.setText(Main.rb.getString("february"));
        if(yearTextField.getText() != null && !yearTextField.getText().trim().equals("") ){ 
             year = Integer.parseInt(yearTextField.getText());            
        }
@@ -224,70 +224,70 @@ public class AppointmentFormController implements Initializable {
 
     @FXML
     private void marMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("MARCH");
+        monthMenuButton.setText(Main.rb.getString("march"));
         populateDayComboBoxFor(31);
         month = "03";
     }
 
     @FXML
     private void aprMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("APRIL");
+        monthMenuButton.setText(Main.rb.getString("april"));
         populateDayComboBoxFor(30);
         month = "04";
     }
 
     @FXML
     private void mayMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("MAY");
+        monthMenuButton.setText(Main.rb.getString("may"));
         populateDayComboBoxFor(31);
         month = "05";
     }
 
     @FXML
     private void junMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("JUNE");
+        monthMenuButton.setText(Main.rb.getString("june"));
         populateDayComboBoxFor(30);
         month = "06";
     }
 
     @FXML
     private void julMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("JULY");
+        monthMenuButton.setText(Main.rb.getString("july"));
         populateDayComboBoxFor(31);
         month = "07";
     }
 
     @FXML
     private void augMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("AUGUST");
+        monthMenuButton.setText(Main.rb.getString("august"));
         populateDayComboBoxFor(31);
         month = "08";
     }
 
     @FXML
     private void sepMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("SEPTEMBER");
+        monthMenuButton.setText(Main.rb.getString("september"));
         populateDayComboBoxFor(30);
         month = "09";
     }
 
     @FXML
     private void octMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("OCTOBER");
+        monthMenuButton.setText(Main.rb.getString("october"));
         populateDayComboBoxFor(31);
         month = "10";
     }
 
     @FXML
     private void novMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("NOVEMBER");
+        monthMenuButton.setText(Main.rb.getString("novmeber"));
         populateDayComboBoxFor(30);
         month = "11";
     }
 
     @FXML
     private void decMenuItemHandler(ActionEvent event) {
-        monthMenuButton.setText("DECEMBER");
+        monthMenuButton.setText(Main.rb.getString("december"));
         populateDayComboBoxFor(31);
         month = "12";
     }

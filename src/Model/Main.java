@@ -29,7 +29,8 @@ import util.DBQuery;
  * @author Lucas
  */
 public class Main extends Application {
-    
+
+    public static ResourceBundle rb;
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
@@ -56,14 +57,11 @@ public class Main extends Application {
      */
     public static void main(String[] args) throws SQLException {
         try{
-     
-        ResourceBundle rb = ResourceBundle.getBundle("/util/localization/Nat", Locale.getDefault());
-        System.out.println("howowow");
-        if(Locale.getDefault().getLanguage().equals("de") || Locale.getDefault().getLanguage().equals("es")){
-            System.out.println(rb.getString("month"));
-        }
+            Locale.setDefault(Locale.GERMAN);
+            rb = ResourceBundle.getBundle("util/localization/Nat", Locale.getDefault());
+
         }catch(MissingResourceException e){
-            System.out.println("Expected don't worry bout it: " + e.getMessage());
+            System.out.println("Localization problem: " + e.getMessage());
         }
         Connection conn = Connect.startConnection();             
         
