@@ -66,6 +66,8 @@ public class CustomerFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         saveButton.setText(Main.rb.getString("save"));
         cancelButton.setText(Main.rb.getString("cancel"));
+
+
     }    
 
     @FXML

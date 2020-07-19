@@ -299,5 +299,12 @@ public class AppointmentFormController implements Initializable {
             dayComboBox.getItems().add(Integer.toString(x));
         }
     }
+
+    //Change format of time from XXAM to UTC
+    private String formatTime(String time){
+        //Convert to military time
+        Main.timeConvert(time);//Convert from local timezeon to UTC
+        return time;
+    }
     
 }
