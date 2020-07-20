@@ -239,4 +239,10 @@ public class Main extends Application {
     public static String getUserName(){
         return currentUser;
     }
+
+    //Converts time to a specific timecode. Returns a string.
+    public static String timeConvert(String time){
+        return time;
+    }
+
 }

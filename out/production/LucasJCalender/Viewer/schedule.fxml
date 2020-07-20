@@ -48,9 +48,9 @@
             <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="101.333251953125" text="Day" />
         </columns>
       </TableView>
-      <Button fx:id="updateAppointmentButton" layoutX="867.0" layoutY="410.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
-      <Button fx:id="addAppointmentButton" layoutX="833.0" layoutY="410.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
-      <Button fx:id="deleteAppointmentButton" layoutX="967.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
+      <Button fx:id="updateAppointmentButton" layoutX="870.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
+      <Button fx:id="addAppointmentButton" layoutX="832.0" layoutY="397.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
+      <Button fx:id="deleteAppointmentButton" layoutX="967.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
       <Label fx:id="customerInfoLabel" layoutX="293.0" layoutY="17.0" text="All Customer Appointments" />
       <MenuButton fx:id="viewByMenuButton" layoutX="903.0" layoutY="12.0" mnemonicParsing="false" text="VIEW BY">
         <items>
