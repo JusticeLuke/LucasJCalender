@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -58,6 +59,26 @@ public class CustomerFormController implements Initializable {
     String errorString = "";
     boolean updatingCustomer = false;
     Customer customer;
+    @FXML
+    private Label customerInfoLabel;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private Label phoneLabel;
+    @FXML
+    private Label streetNumberLabel;
+    @FXML
+    private Label streetNameLabel;
+    @FXML
+    private Label postalLabel;
+    @FXML
+    private Label cityLabel;
+    @FXML
+    private Label countryLabel;
+    @FXML
+    private Label addressLabel;
 
     /**
      * Initializes the controller class.
@@ -66,6 +87,8 @@ public class CustomerFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         saveButton.setText(Main.rb.getString("save"));
         cancelButton.setText(Main.rb.getString("cancel"));
+        customerInfoLabel.setText(Main.rb.getString("customer"));
+        firstNameLabel.setText(Main.rb.getString("name"));
     }    
 
     @FXML
