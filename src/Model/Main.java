@@ -5,11 +5,10 @@
  */
 package Model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import util.Connect;
@@ -101,6 +100,8 @@ public class Main extends Application {
     //Query database for customer's appointments then add them to the customer's appointment list and the allAppointment's list
     private void grabAppointments(Customer customer) throws SQLException{
         int appointmentId;
+        ZonedDateTime appointmentUTC = null;
+
         String type;
         String user;
         String start;
@@ -124,6 +125,8 @@ public class Main extends Application {
         
         Appointment appointment;
         while(rs.next()){
+            appointmentUTC = ZonedDateTime.of();
+
             appointmentId = rs.getInt("appointmentId");
             type = rs.getString("type");
             start = rs.getString("start");

@@ -15,7 +15,7 @@
    <children>
       <AnchorPane layoutX="7.0" prefHeight="450.0" prefWidth="242.0">
          <children>
-            <Label layoutX="68.0" layoutY="-6.0" prefHeight="40.0" prefWidth="109.0" text="CUSTOMERS" textAlignment="CENTER">
+            <Label fx:id="customerTableLabel" layoutX="68.0" layoutY="-6.0" prefHeight="40.0" prefWidth="109.0" text="CUSTOMERS" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -31,13 +31,13 @@
               </columns>
             </TableView>
             <Button fx:id="addCustomerButton" layoutX="2.0" layoutY="397.0" mnemonicParsing="false" onAction="#addCustomerButtonHandler" text="+" />
-            <Button fx:id="updateCustomerButton" layoutX="38.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateCustomerButtonHandler" text="UPDATE" />
-            <Button fx:id="deleteCustomerButton" layoutX="110.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteCustomerButtonHandler" prefHeight="25.0" prefWidth="25.0" text="-" />
+            <Button fx:id="updateCustomerButton" layoutX="35.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateCustomerButtonHandler" text="UPDATE" />
+            <Button fx:id="deleteCustomerButton" layoutX="123.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteCustomerButtonHandler" prefHeight="25.0" prefWidth="25.0" text="-" />
             <Button fx:id="viewAppointments" layoutX="152.0" layoutY="397.0" mnemonicParsing="false" onAction="#viewAppointmentsButtonHandler" text="View Appointments" />
          </children>
       </AnchorPane>
       <TextField fx:id="yearTextField" layoutX="653.0" layoutY="13.0" prefHeight="25.0" prefWidth="67.0" promptText="YEAR" />
-      <Button fx:id="viewNextButton" layoutX="766.0" layoutY="12.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="25.0" prefWidth="67.0" text="NEXT" />
+      <Button fx:id="viewNextButton" layoutX="782.0" layoutY="12.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="85.0" text="NEXT" />
       <TableView fx:id="appointmentTable" layoutX="293.0" layoutY="40.0" prefHeight="352.0" prefWidth="697.0">
         <columns>
           <TableColumn fx:id="typeColumn" prefWidth="129.333251953125" text="Type" />
@@ -48,9 +48,9 @@
             <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="101.333251953125" text="Day" />
         </columns>
       </TableView>
-      <Button fx:id="updateAppointmentButton" layoutX="888.0" layoutY="410.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
-      <Button fx:id="addAppointmentButton" layoutX="855.0" layoutY="410.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
-      <Button fx:id="deleteAppointmentButton" layoutX="960.0" layoutY="410.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
+      <Button fx:id="updateAppointmentButton" layoutX="870.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
+      <Button fx:id="addAppointmentButton" layoutX="832.0" layoutY="397.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
+      <Button fx:id="deleteAppointmentButton" layoutX="967.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
       <Label fx:id="customerInfoLabel" layoutX="293.0" layoutY="17.0" text="All Customer Appointments" />
       <MenuButton fx:id="viewByMenuButton" layoutX="903.0" layoutY="12.0" mnemonicParsing="false" text="VIEW BY">
         <items>
