@@ -88,7 +88,15 @@ public class CustomerFormController implements Initializable {
         saveButton.setText(Main.rb.getString("save"));
         cancelButton.setText(Main.rb.getString("cancel"));
         customerInfoLabel.setText(Main.rb.getString("customer"));
-        firstNameLabel.setText(Main.rb.getString("name"));
+        firstNameLabel.setText(Main.rb.getString("firstName"));
+        lastNameLabel.setText(Main.rb.getString("lastName"));
+        phoneLabel.setText(Main.rb.getString("phone"));
+        streetNumberLabel.setText(Main.rb.getString("street")+" "+Main.rb.getString("number"));
+        streetNameLabel.setText(Main.rb.getString("street")+" "+Main.rb.getString("name"));
+        postalLabel.setText(Main.rb.getString("postal"));
+        cityLabel.setText(Main.rb.getString("city"));
+        countryLabel.setText(Main.rb.getString("country"));
+        addressLabel.setText(Main.rb.getString("address"));
     }    
 
     @FXML

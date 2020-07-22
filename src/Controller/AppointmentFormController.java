@@ -122,9 +122,13 @@ public class AppointmentFormController implements Initializable {
         endComboBox.getItems().add("04PM");
         endComboBox.getItems().add("05PM");
         
-        
+        appointmentLabel.setText(Main.rb.getString("appointments")+" "+Main.rb.getString("type"));
+        lengthLabel.setText(Main.rb.getString("length"));
 
-        
+        startComboBox.setPromptText(Main.rb.getString("start"));
+        endComboBox.setPromptText(Main.rb.getString("end"));
+        monthMenuButton.setText(Main.rb.getString("month"));
+        dayComboBox.setPromptText(Main.rb.getString("day"));
     }    
 
     @FXML

@@ -121,6 +121,7 @@ public class scheduleController implements Initializable {
         viewNextButton.setText(Main.rb.getString("next"));
         viewAppointments.setText(Main.rb.getString("view")+" "+Main.rb.getString("appointments"));
         viewAllAppointmentsButton.setText(Main.rb.getString("all")+" "+Main.rb.getString("view")+" "+Main.rb.getString("appointments"));
+        customerInfoLabel.setText(Main.rb.getString("all")+" "+Main.rb.getString("customer")+" "+Main.rb.getString("appointments"));
         customerTableLabel.setText(Main.rb.getString("customer"));
         nameColumn.setText(Main.rb.getString("name"));
         phoneColumn.setText(Main.rb.getString("phone"));
@@ -230,7 +231,7 @@ public class scheduleController implements Initializable {
         
         AppointmentFormController control = load.<AppointmentFormController>getController(); 
         if(appointmentTable.getSelectionModel().getSelectedItem() == null){
-            alertUser("Select the appointment you wish to update.");
+            alertUser(Main.rb.getString("SelectTheAppointmentYouWishToUpdate"));
         }else{
             control.setAppointmentInfo(appointmentTable.getSelectionModel().getSelectedItem());        
             formStage.show(); 
@@ -248,7 +249,7 @@ public class scheduleController implements Initializable {
         
         AppointmentFormController control = load.<AppointmentFormController>getController(); 
         if(customerTable.getSelectionModel().getSelectedItem() == null){
-            alertUser("Select the customer you are meeting with from the Customer Table.");
+            alertUser(Main.rb.getString("SelectTheCustomerYouAreMeetingWithFromTheCustomerTable"));
         }else{
             control.setAppointmentInfo(customerTable.getSelectionModel().getSelectedItem());        
             formStage.show(); 

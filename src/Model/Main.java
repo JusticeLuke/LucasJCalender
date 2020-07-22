@@ -6,7 +6,9 @@
 package Model;
 
 import java.sql.*;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.Date;
 import java.util.MissingResourceException;
@@ -106,6 +108,8 @@ public class Main extends Application {
         ZonedDateTime appointmentEndLocal = null;
 
         int appointmentId;
+        ZonedDateTime appointmentUTC = null;
+
         String type;
         String user;
         String start;
