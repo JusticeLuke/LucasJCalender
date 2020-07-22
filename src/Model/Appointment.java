@@ -44,7 +44,7 @@ public class Appointment {
         
         startHour = Integer.parseInt(start);
         endHour = Integer.parseInt(end);
-        
+
         if(newAppointment)
             addAppointmentToDatabase();
     }
@@ -67,7 +67,8 @@ public class Appointment {
         ps.setString(5, endTime);
         ps.execute();
 
-
+        Main.addToAppointmentList(this);
+        Main.updateTable();
         return true;
     }
 

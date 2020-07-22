@@ -5,12 +5,10 @@
  */
 package Model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.*;
 import java.util.Locale;
+import java.util.Date;
 import java.util.MissingResourceException;
 import util.Connect;
 import javafx.application.Application;
@@ -56,8 +54,9 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
+
         try{
-            Locale.setDefault(Locale.GERMAN);
+
             rb = ResourceBundle.getBundle("util/localization/Nat", Locale.getDefault());
 
         }catch(MissingResourceException e){
@@ -100,6 +99,12 @@ public class Main extends Application {
     
     //Query database for customer's appointments then add them to the customer's appointment list and the allAppointment's list
     private void grabAppointments(Customer customer) throws SQLException{
+
+        ZonedDateTime appointmentUTC = null;
+        ZonedDateTime appointmentEndUTC = null;
+        ZonedDateTime appointmentLocal = null;
+        ZonedDateTime appointmentEndLocal = null;
+
         int appointmentId;
         String type;
         String user;
@@ -124,18 +129,20 @@ public class Main extends Application {
         
         Appointment appointment;
         while(rs.next()){
+            appointmentUTC = ZonedDateTime.of(rs.getTimestamp("start").toLocalDateTime().getYear(), rs.getDate("start").toLocalDate().getMonthValue(), rs.getDate("start").toLocalDate().getDayOfMonth(), rs.getTimestamp("start").toLocalDateTime().getHour(), rs.getTimestamp("start").toLocalDateTime().getMinute(), rs.getTimestamp("start").toLocalDateTime().getSecond(),0, ZoneId.of("UTC"));
+            appointmentEndUTC = ZonedDateTime.of(rs.getTimestamp("end").toLocalDateTime().getYear(), rs.getDate("end").toLocalDate().getMonthValue(), rs.getDate("end").toLocalDate().getDayOfMonth(), rs.getTimestamp("end").toLocalDateTime().getHour(), rs.getTimestamp("end").toLocalDateTime().getMinute(), rs.getTimestamp("end").toLocalDateTime().getSecond(),0, ZoneId.of("UTC"));
+
+            appointmentLocal = appointmentUTC.withZoneSameInstant(ZoneId.systemDefault());
+            appointmentEndLocal = appointmentEndUTC.withZoneSameInstant(ZoneId.systemDefault());
+            System.out.println("UTC: "+appointmentEndUTC.getHour());
+            System.out.println("Local: "+appointmentEndLocal.getHour());
             appointmentId = rs.getInt("appointmentId");
             type = rs.getString("type");
-            start = rs.getString("start");
-            start = start.substring(start.indexOf(" ")+1, start.indexOf(":"));
-            end = rs.getString("end");
-            end = end.substring(end.indexOf(" ")+1, end.indexOf(":"));
-            year = rs.getString("start");
-            year = year.substring(0,4);
-            month = rs.getString("start");
-            month = month.substring(5,7);
-            day = rs.getString("start");
-            day = day.substring(8,10);
+            start = Integer.toString(appointmentLocal.getHour());
+            end = Integer.toString(appointmentEndLocal.getHour());
+            year = Integer.toString(appointmentLocal.getYear());
+            month = appointmentLocal.getMonth().toString();
+            day = Integer.toString(appointmentLocal.getDayOfMonth());
             user = rs.getString("userName");
             appointment = new Appointment(customer, appointmentId, type, user, start, end, year, month, day, false);
             customer.addAppointment(appointment);
@@ -240,9 +247,5 @@ public class Main extends Application {
         return currentUser;
     }
 
-    //Converts time to a specific timecode. Returns a string.
-    public static String timeConvert(String time){
-        return time;
-    }
 
 }

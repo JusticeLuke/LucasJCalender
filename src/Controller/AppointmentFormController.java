@@ -10,6 +10,9 @@ import Model.Customer;
 import Model.Main;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -161,20 +164,17 @@ public class AppointmentFormController implements Initializable {
     //Checks input of form, sets a warning message and returns true if their are no errors 
     private boolean inputValidation(){
         type = typeTextField.getText().trim();
-          
         
         year = yearTextField.getText().trim(); 
         day = dayComboBox.getValue();
         
-        start = startComboBox.getValue();
-        end = endComboBox.getValue();
-        
+        start = formatTime(startComboBox.getValue());
+        end = formatTime(endComboBox.getValue());
         
         if( day == null || year.equals("") || year == null || type.equals("") || type == null || start.equals("start") || end.equals("end") || day.equals("day") || month == null){
             errorString += Main.rb.getString("PleaseFillOutAllFieldsBeforeSaving")+"\n";
             return false;
         }
-        
         try{
             int x = Integer.parseInt(year);
             if(x>2022 || x<2019){
@@ -184,9 +184,7 @@ public class AppointmentFormController implements Initializable {
             errorString += Main.rb.getString("PleaseInsertAvalidYearBetween2019And2022")+"\n";
             return false;
         }
-        
-        start = start.substring(0,2);
-        end = end.substring(0,2);
+
         return true;
     }
     
@@ -301,14 +299,26 @@ public class AppointmentFormController implements Initializable {
     private void populateDayComboBoxFor(int days){
         dayComboBox.getItems().clear();
         for(int x=1;x<=days;x++){
-            dayComboBox.getItems().add(Integer.toString(x));
+            if(x>=1 && x<10) {
+                dayComboBox.getItems().add("0"+Integer.toString(x));
+            }else{
+                dayComboBox.getItems().add(Integer.toString(x));
+            }
         }
     }
 
     //Change format of time from XXAM to UTC
     private String formatTime(String time){
-        //Convert to military time
-        Main.timeConvert(time);//Convert from local timezeon to UTC
+        int militaryTime;
+        if(time.contains("PM") && !time.equals("12PM")){
+            militaryTime = Integer.parseInt(time.substring(0,2)) + 12;
+        }else{
+            militaryTime = Integer.parseInt(time.substring(0,2));
+        }
+        System.out.println(militaryTime);
+        ZonedDateTime local = ZonedDateTime.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day),militaryTime,0,0,0,ZoneId.systemDefault());
+        local = local.withZoneSameInstant(ZoneId.of("UTC"));//Convert from local timezone to UTC
+        time = Integer.toString(local.getHour());
         return time;
     }
     
