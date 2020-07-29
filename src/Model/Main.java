@@ -8,6 +8,7 @@ package Model;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.Date;
@@ -108,7 +109,6 @@ public class Main extends Application {
         ZonedDateTime appointmentEndLocal = null;
 
         int appointmentId;
-        ZonedDateTime appointmentUTC = null;
 
         String type;
         String user;
@@ -145,7 +145,7 @@ public class Main extends Application {
             start = Integer.toString(appointmentLocal.getHour());
             end = Integer.toString(appointmentEndLocal.getHour());
             year = Integer.toString(appointmentLocal.getYear());
-            month = appointmentLocal.getMonth().toString();
+            month = Integer.toString(appointmentLocal.getMonthValue());
             day = Integer.toString(appointmentLocal.getDayOfMonth());
             user = rs.getString("userName");
             appointment = new Appointment(customer, appointmentId, type, user, start, end, year, month, day, false);
@@ -161,9 +161,7 @@ public class Main extends Application {
         return allCustomers;
     }
     
-    public static ObservableList<Appointment> getAppointmentList(){
-        return allAppointments;
-    }
+    public static ObservableList<Appointment> getAppointmentList(){ return allAppointments; }
     
     public static Customer lookupCustomer(int customerId){
         for(int i=0;i<allCustomers.size();i++){

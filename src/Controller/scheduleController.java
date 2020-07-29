@@ -283,6 +283,7 @@ public class scheduleController implements Initializable {
 
     @FXML
     private void goButtonHandler(ActionEvent event) {
+        appointmentTable.setItems(filteredAllAppointments);
         filteredAllAppointments.setPredicate(appointment -> {
             if(Integer.parseInt(appointment.getMonth()) == monthComboBox.getSelectionModel().getSelectedIndex()+1 && appointment.getYear().equals(yearTextField.getText().trim())){
                 return true;

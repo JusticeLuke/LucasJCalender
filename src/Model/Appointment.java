@@ -9,6 +9,8 @@ import Controller.scheduleController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.Connect;
@@ -73,11 +75,26 @@ public class Appointment {
     }
 
     public boolean updateAppointment(String type, String user, String start, String end, String year, String month, String day) throws SQLException{
+        this.type = type;
+        this.start = start;
+        this.end = end;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+
+        ZonedDateTime localStart = ZonedDateTime.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day),Integer.parseInt(start),0,0,0, ZoneId.systemDefault());
+        localStart = localStart.withZoneSameInstant(ZoneId.of("UTC"));//Convert from local timezone to UTC
+        start = Integer.toString(localStart.getHour());
+
+        ZonedDateTime localEnd = ZonedDateTime.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day),Integer.parseInt(end),0,0,0, ZoneId.systemDefault());
+        localEnd = localEnd.withZoneSameInstant(ZoneId.of("UTC"));//Convert from local timezone to UTC
+        end = Integer.toString(localEnd.getHour());
+
         String startTime = year+"-"+month+"-"+day+" "+start+":00:00";
         String endTime = year+"-"+month+"-"+day+" "+end+":00:00";
 
         Connection conn = Connect.getConnection();
-        String updateStatement = "UPDATE appointment SET type = ?, start = ?, end = ?, lastUpdate = NOW(), lastUpdateBy = ?) "
+        String updateStatement = "UPDATE appointment SET type = ?, start = ?, end = ?, lastUpdate = NOW(), lastUpdateBy = ? "
                 + "WHERE appointmentId = ?; "; //Insert customerId(1) value
 
         PreparedStatement ps = conn.prepareStatement(updateStatement);
@@ -85,15 +102,9 @@ public class Appointment {
         ps.setString(2,startTime);
         ps.setString(3,endTime);
         ps.setString(4,Main.getUserName());
+        ps.setInt(5,appointmentId);
 
         ps.execute();
-        
-        this.type = type;
-        this.start = start;
-        this.end = end;
-        this.year = year;
-        this.month = month;
-        this.day = day;
         
         Main.updateTable();
         
@@ -177,12 +188,12 @@ public class Appointment {
         return day;
     }
 
-    public String getMonth(){
-        return month;
+    public String getMonth(){ return month;
     }
 
     public String getYear(){
         return year;
-    }    
+    }
+
     
 }

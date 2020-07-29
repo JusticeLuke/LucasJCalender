@@ -9,11 +9,16 @@ import Model.Appointment;
 import Model.Customer;
 import Model.Main;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import util.Connect;
 
 /**
  * FXML Controller class
@@ -134,7 +140,7 @@ public class AppointmentFormController implements Initializable {
     @FXML
     private void saveButtonHandler(ActionEvent event) throws SQLException {        
         Alert alert;
-        
+        errorString="";
         if(inputValidation()){
             if(!updatingAppointment){
                 appointment = new Appointment(customer, 0, type, user, start, end, year, month, day, true);//Create new appointment
@@ -163,6 +169,7 @@ public class AppointmentFormController implements Initializable {
 
     @FXML
     private void cancelButtonHandler(ActionEvent event) {
+
     }
     
     //Checks input of form, sets a warning message and returns true if their are no errors 
@@ -171,7 +178,7 @@ public class AppointmentFormController implements Initializable {
         
         year = yearTextField.getText().trim(); 
         day = dayComboBox.getValue();
-        
+
         start = formatTime(startComboBox.getValue());
         end = formatTime(endComboBox.getValue());
         
@@ -189,7 +196,54 @@ public class AppointmentFormController implements Initializable {
             return false;
         }
 
+        if(scheduleConflict(start, end)){
+            errorString += Main.rb.getString("ScheduleConflict");
+            return false;
+        }
+
         return true;
+    }
+
+    //
+    private boolean scheduleConflict(String start, String end){
+        Appointment appointment;
+        int startInt = Integer.parseInt(start);
+        int endInt = Integer.parseInt(end);
+        int startCompare;
+        int endCompare;
+        for (int x=0;x<Main.getAppointmentList().size();x++){
+            appointment = Main.getAppointmentList().get(x);
+            if(appointment.getUser().equals(Main.getUserName()) && appointment.getYear().equals(year) && appointment.getMonth().equals(month) && appointment.getDay().equals(day)){
+
+                startCompare = Integer.parseInt(appointment.getStart());
+                endCompare = Integer.parseInt(appointment.getEnd());
+                if(startInt>=startCompare && startInt<endCompare){
+                    return true;
+                }
+                if(endInt>startCompare && endInt<=endCompare ){
+                    return true;
+                }
+                if(startCompare >= startInt && startCompare<endInt){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+    private String formatTime(String time){
+        int militaryTime;
+        if(time.contains("PM") && !time.equals("12PM")){
+            militaryTime = Integer.parseInt(time.substring(0,2)) + 12;
+        }else{
+            militaryTime = Integer.parseInt(time.substring(0,2));
+        }
+
+        time = Integer.toString(militaryTime);
+
+        return time;
     }
     
     //Grabs selected customer and assoicates it with the new appointment
@@ -310,20 +364,4 @@ public class AppointmentFormController implements Initializable {
             }
         }
     }
-
-    //Change format of time from XXAM to UTC
-    private String formatTime(String time){
-        int militaryTime;
-        if(time.contains("PM") && !time.equals("12PM")){
-            militaryTime = Integer.parseInt(time.substring(0,2)) + 12;
-        }else{
-            militaryTime = Integer.parseInt(time.substring(0,2));
-        }
-        System.out.println(militaryTime);
-        ZonedDateTime local = ZonedDateTime.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day),militaryTime,0,0,0,ZoneId.systemDefault());
-        local = local.withZoneSameInstant(ZoneId.of("UTC"));//Convert from local timezone to UTC
-        time = Integer.toString(local.getHour());
-        return time;
-    }
-    
 }
