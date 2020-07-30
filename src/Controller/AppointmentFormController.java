@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import util.Connect;
 
 /**
@@ -169,6 +170,8 @@ public class AppointmentFormController implements Initializable {
 
     @FXML
     private void cancelButtonHandler(ActionEvent event) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
 
     }
     

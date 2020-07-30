@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.scheduleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="455.0" prefWidth="942.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.scheduleController">
    <children>
       <AnchorPane layoutX="7.0" prefHeight="450.0" prefWidth="242.0">
          <children>
@@ -36,30 +36,31 @@
             <Button fx:id="viewAppointments" layoutX="152.0" layoutY="397.0" mnemonicParsing="false" onAction="#viewAppointmentsButtonHandler" text="View Appointments" />
          </children>
       </AnchorPane>
-      <TextField fx:id="yearTextField" layoutX="653.0" layoutY="13.0" prefHeight="25.0" prefWidth="67.0" promptText="YEAR" />
-      <Button fx:id="viewNextButton" layoutX="782.0" layoutY="12.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="85.0" text="NEXT" />
-      <TableView fx:id="appointmentTable" layoutX="293.0" layoutY="40.0" prefHeight="352.0" prefWidth="697.0">
+      <TextField fx:id="yearTextField" layoutX="567.0" layoutY="13.0" prefHeight="25.0" prefWidth="67.0" promptText="YEAR" />
+      <Button fx:id="viewNextButton" layoutX="696.0" layoutY="11.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="85.0" text="NEXT" />
+      <TableView fx:id="appointmentTable" layoutX="293.0" layoutY="40.0" prefHeight="352.0" prefWidth="636.0">
         <columns>
-          <TableColumn fx:id="typeColumn" prefWidth="129.333251953125" text="Type" />
-            <TableColumn fx:id="consultantColumn" minWidth="0.0" prefWidth="117.3333740234375" text="Consultant" />
-            <TableColumn fx:id="customerLinkColumn" prefWidth="135.3333740234375" text="Customer Link" />
-            <TableColumn fx:id="startTmeColumn" prefWidth="121.3333740234375" text="Start" />
-            <TableColumn fx:id="endTimeColumn" minWidth="0.0" prefWidth="88.6666259765625" text="End" />
-            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="101.333251953125" text="Day" />
+            <TableColumn fx:id="customerAppColumn" prefWidth="131.3333740234375" text="Customer" />
+            <TableColumn fx:id="consultantColumn" minWidth="0.0" prefWidth="113.33340454101562" text="Consultant" />
+          <TableColumn fx:id="typeColumn" prefWidth="112.666748046875" text="Type" />
+            <TableColumn fx:id="startTmeColumn" prefWidth="76.0" text="Start Hour" />
+            <TableColumn fx:id="endTimeColumn" minWidth="0.0" prefWidth="65.3333740234375" text="End Hour" />
+            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="72.666748046875" text="Day" />
+            <TableColumn fx:id="monthColumn" prefWidth="59.99993896484375" text="Month" />
         </columns>
       </TableView>
-      <Button fx:id="updateAppointmentButton" layoutX="870.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
-      <Button fx:id="addAppointmentButton" layoutX="832.0" layoutY="397.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
-      <Button fx:id="deleteAppointmentButton" layoutX="967.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
+      <Button fx:id="updateAppointmentButton" layoutX="808.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
+      <Button fx:id="addAppointmentButton" layoutX="770.0" layoutY="397.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
+      <Button fx:id="deleteAppointmentButton" layoutX="907.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
       <Label fx:id="customerInfoLabel" layoutX="293.0" layoutY="17.0" text="All Customer Appointments" />
-      <MenuButton fx:id="viewByMenuButton" layoutX="903.0" layoutY="12.0" mnemonicParsing="false" text="VIEW BY">
+      <MenuButton fx:id="viewByMenuButton" layoutX="838.0" layoutY="13.0" mnemonicParsing="false" text="VIEW BY">
         <items>
           <MenuItem fx:id="viewMonthMenuItem" mnemonicParsing="false" onAction="#viewMonthMenuItemHandler" text="MONTH" />
           <MenuItem fx:id="viewByWeekMenuItem" mnemonicParsing="false" onAction="#viewByWeekMenuItemHandler" text="WEEK" />
         </items>
       </MenuButton>
-      <Button fx:id="goButton" layoutX="721.0" layoutY="12.0" mnemonicParsing="false" onAction="#goButtonHandler" text="GO" />
+      <Button fx:id="goButton" layoutX="634.0" layoutY="12.0" mnemonicParsing="false" onAction="#goButtonHandler" text="GO" />
       <Button fx:id="viewAllAppointmentsButton" layoutX="573.0" layoutY="397.0" mnemonicParsing="false" onAction="#viewAllAppointmentsButtonHandler" text="View All Appointments" />
-      <ComboBox fx:id="monthComboBox" layoutX="559.0" layoutY="13.0" prefHeight="25.0" prefWidth="94.0" promptText="MONTH" />
+      <ComboBox fx:id="monthComboBox" layoutX="461.0" layoutY="13.0" prefHeight="25.0" prefWidth="94.0" promptText="MONTH" />
    </children>
 </AnchorPane>

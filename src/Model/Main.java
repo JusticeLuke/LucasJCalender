@@ -44,7 +44,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         grabCustomerRecords();
-        root = FXMLLoader.load(getClass().getResource("/Viewer/schedule.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/Viewer/login.fxml"));
         
         Scene scene = new Scene(root);
                
@@ -65,7 +65,9 @@ public class Main extends Application {
         }catch(MissingResourceException e){
             System.out.println("Localization problem: " + e.getMessage());
         }
-        Connection conn = Connect.startConnection();             
+
+
+        Connection conn = Connect.startConnection();
         
         launch(args);
         Connect.closeConnection();
@@ -138,8 +140,6 @@ public class Main extends Application {
 
             appointmentLocal = appointmentUTC.withZoneSameInstant(ZoneId.systemDefault());
             appointmentEndLocal = appointmentEndUTC.withZoneSameInstant(ZoneId.systemDefault());
-            System.out.println("UTC: "+appointmentEndUTC.getHour());
-            System.out.println("Local: "+appointmentEndLocal.getHour());
             appointmentId = rs.getInt("appointmentId");
             type = rs.getString("type");
             start = Integer.toString(appointmentLocal.getHour());
@@ -201,34 +201,6 @@ public class Main extends Application {
     public static boolean addToAppointmentList(Appointment appointment){
         allAppointments.add(appointment);
         return true;
-    }
-
-    //Makes a query to check for any overlapping appoints. Returns true if the appointment window has
-    //no conflicts, and false if there are conflicts.
-    public static boolean checkSchedule(String startTime, String endTime, int userId) throws SQLException{
-        Connection conn = Connect.getConnection();
-        String selectStatement = "SELECT * FROM appointment " +//Find all records from appointment
-                                 "WHERE start BETWEEN ? AND ? " +//Where appointment start time is between given start(1) and end(2) times
-                                 "AND end BETWEEN ? AND ?" +//And where appointment end time is between given start(3) and end(4) times
-                                 "AND userId = ?";//And where userId equals the given userId(5)
-
-
-        DBQuery.setPreparedStatement(conn,selectStatement);
-        PreparedStatement ps = conn.prepareStatement(selectStatement);
-
-        ps.setString(1,startTime);
-        ps.setString(2,endTime);
-        ps.setString(3,startTime);
-        ps.setString(4,endTime);
-        ps.setInt(5,userId);
-
-        ps.execute(selectStatement);
-        ResultSet rs = ps.getResultSet();
-
-        while(rs.next()){
-            return false;//Returns false if at least 1 scheduling conflicts
-        }
-        return true;//
     }
     
     //User id is set when the user logins

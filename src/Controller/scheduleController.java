@@ -9,6 +9,8 @@ import Model.Appointment;
 import com.gluonhq.charm.glisten.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,7 +76,9 @@ public class scheduleController implements Initializable {
     @FXML
     private TableColumn<Appointment, String> consultantColumn;
     @FXML
-    private TableColumn<Appointment, String> customerLinkColumn;
+    private TableColumn<Appointment, String> customerAppColumn;
+    @FXML
+    private TableColumn<Appointment, String> monthColumn;
     @FXML
     private Button updateAppointmentButton;
     @FXML
@@ -130,7 +134,6 @@ public class scheduleController implements Initializable {
         typeColumn.setText(Main.rb.getString("type"));
         consultantColumn.setText(Main.rb.getString("consultant"));
         cityColumn.setText(Main.rb.getString("city"));
-        customerLinkColumn.setText(Main.rb.getString("customer")+" "+Main.rb.getString("link"));
         startTmeColumn.setText(Main.rb.getString("start"));
         endTimeColumn.setText(Main.rb.getString("end"));
         dayColumn.setText(Main.rb.getString("day"));
@@ -168,7 +171,8 @@ public class scheduleController implements Initializable {
         dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
-        customerLinkColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        customerAppColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getCustomer().getName()));
+        monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
         
         appointmentTable.setPlaceholder(new Label(Main.rb.getString("NoRowsToDisplay")));
         
