@@ -139,7 +139,11 @@ public class CustomerFormController implements Initializable {
     //Checks if all text fields provided a valid input, and creates an error string that displays when the user attempts to save the data
     private boolean inputValidation(){
         boolean valid = true;
-        
+
+        if(firstNameTextField.getText().trim().isEmpty() || lastNameTextField.getText().trim().isEmpty()){
+            errorString += Main.rb.getString("PleaseFillOutAllFieldsBeforeSaving");
+            return false;
+        }
         name = firstNameTextField.getText().trim() + " " + lastNameTextField.getText().trim();
         
         phone = phoneTextField.getText().trim();
@@ -176,7 +180,7 @@ public class CustomerFormController implements Initializable {
         }
         
         //Checks if city and country fields contain only letters
-        if(!city.chars().allMatch(Character::isLetter) || !country.chars().allMatch(Character::isLetter)){
+        if(!city.replaceAll(" ","").chars().allMatch(Character::isLetter) || !country.replaceAll(" ","").chars().allMatch(Character::isLetter)){
             errorString += Main.rb.getString("CityAndCountryShouldOnlyContainLetters")+"\n";
             valid = false;
         }

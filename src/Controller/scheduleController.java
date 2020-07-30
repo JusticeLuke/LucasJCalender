@@ -49,7 +49,7 @@ public class scheduleController implements Initializable {
     @FXML
     private TextField yearTextField;
     @FXML
-    private TableView<Customer> customerTable = new TableView<Customer>();
+    private TableView<Customer> customerTable;
     @FXML
     private TableColumn<Customer, String> nameColumn;
     @FXML
@@ -64,7 +64,6 @@ public class scheduleController implements Initializable {
     private TableColumn<Customer, String> countryColumn;    
     @FXML
     private TableView<Appointment> appointmentTable;
-    
     @FXML
     private TableColumn<Appointment, String> startTmeColumn;
     @FXML

@@ -58,10 +58,10 @@ public class LoginController implements Initializable {
 
         if(checkCred(username, password)) {
             FXMLLoader load = new FXMLLoader(getClass().getResource("/Viewer/schedule.fxml"));
-            Parent formScreen = load.load();
+            Main.root = load.load();
 
             Stage formStage = new Stage();
-            Scene formScene = new Scene(formScreen);
+            Scene formScene = new Scene(Main.root);
 
             formStage.setScene(formScene);
             formStage.show();

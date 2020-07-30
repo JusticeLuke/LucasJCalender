@@ -36,7 +36,7 @@ public class Main extends Application {
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     public static Stage stage = new Stage();
-    private static Parent root;
+    public static Parent root;
     
     private static String currentUser = "test";
     private static int userId = 1;

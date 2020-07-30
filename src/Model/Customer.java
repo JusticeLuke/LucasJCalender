@@ -17,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.Connect;
 
+import static Model.Main.updateTable;
+
 /**
  *
  * @author Lucas
@@ -169,7 +171,7 @@ public class Customer {
             setPostalCode(postalCode);
             setAddress(address);
 
-            Main.updateTable();
+            updateTable();
 
             return true;
             
@@ -190,7 +192,7 @@ public class Customer {
             ps.execute();
             
             Main.removeCustomer(this);
-            Main.updateTable();
+            updateTable();
             
             return true;
             
