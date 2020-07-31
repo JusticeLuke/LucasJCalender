@@ -7,11 +7,15 @@ package Controller;
 
 import Model.Appointment;
 import com.gluonhq.charm.glisten.control.TextField;
+
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.text.DateFormatSymbols;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -28,6 +32,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -44,7 +49,6 @@ public class scheduleController implements Initializable {
     private Button updateCustomerButton;
     @FXML
     private Button deleteCustomerButton;
-    @FXML
     private TextField yearTextField;
     @FXML
     private TableView<Customer> customerTable;
@@ -86,38 +90,38 @@ public class scheduleController implements Initializable {
     private Label customerInfoLabel;
     @FXML
     private Label customerTableLabel;
-    @FXML
     private Button viewNextButton;
-    @FXML
     private MenuButton viewByMenuButton;
-    @FXML
     private MenuItem viewMonthMenuItem;
-    @FXML
     private MenuItem viewByWeekMenuItem;
-    @FXML
     private Button goButton;
     @FXML
     private Button viewAppointments;
     @FXML
     private Button viewAllAppointmentsButton;
-    @FXML
     private ComboBox<String> monthComboBox;
     
     FilteredList<Appointment> filteredAllAppointments = new FilteredList<>(Main.getAppointmentList(), p -> true);
     int viewWeekStartInt = 1;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private MenuButton dateViewMenuButton;
+    @FXML
+    private MenuItem viewWeek;
+    @FXML
+    private MenuItem viewMonth;
+    @FXML
+    private TableColumn<?, ?> yearColumn;
+    @FXML
+    private Button reportButton;
     //Populates customer and appointment tables with current data
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         //Set button, label, and items text with localized string
-        monthComboBox.setPromptText(Main.rb.getString("month"));
-        viewByMenuButton.setText(Main.rb.getString("view"));
-        viewByWeekMenuItem.setText(Main.rb.getString("week"));
-        viewMonthMenuItem.setText(Main.rb.getString("month"));
-        goButton.setText(Main.rb.getString("go"));
         updateCustomerButton.setText(Main.rb.getString("update"));
         updateAppointmentButton.setText(Main.rb.getString("update"));
-        viewNextButton.setText(Main.rb.getString("next"));
         viewAppointments.setText(Main.rb.getString("view")+" "+Main.rb.getString("appointments"));
         viewAllAppointmentsButton.setText(Main.rb.getString("all")+" "+Main.rb.getString("view")+" "+Main.rb.getString("appointments"));
         customerInfoLabel.setText(Main.rb.getString("all")+" "+Main.rb.getString("customer")+" "+Main.rb.getString("appointments"));
@@ -133,20 +137,6 @@ public class scheduleController implements Initializable {
         endTimeColumn.setText(Main.rb.getString("end"));
         dayColumn.setText(Main.rb.getString("day"));
 
-        //Populate month combo box
-        monthComboBox.getItems().add(Main.rb.getString("january"));
-        monthComboBox.getItems().add(Main.rb.getString("february"));
-        monthComboBox.getItems().add(Main.rb.getString("march"));
-        monthComboBox.getItems().add(Main.rb.getString("april"));
-        monthComboBox.getItems().add(Main.rb.getString("may"));
-        monthComboBox.getItems().add(Main.rb.getString("june"));
-        monthComboBox.getItems().add(Main.rb.getString("july"));
-        monthComboBox.getItems().add(Main.rb.getString("august"));
-        monthComboBox.getItems().add(Main.rb.getString("september"));
-        monthComboBox.getItems().add(Main.rb.getString("october"));
-        monthComboBox.getItems().add(Main.rb.getString("november"));
-        monthComboBox.getItems().add(Main.rb.getString("december"));
-        
         //Populate customer table
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -169,13 +159,15 @@ public class scheduleController implements Initializable {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
 
-        //Lamba expresssion to get the appointment's customer, then get the customer's name, and set to cell value
+        //Lamba expresssion to get the appointment's customer, then get the customer's name, and set it to cell value
         customerAppColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCustomer().getName()));
 
         //Lamba expression is used here to convert the String month to an integer then use DateFormatSymbols class to convert it to a
         //localized name of the month string and set it to cell value. Lamba expression is used here to lessen the complexity of the
         //appointment class, since printing the month name is to increase user readability.
         monthColumn.setCellValueFactory(c -> new SimpleStringProperty(new DateFormatSymbols().getMonths()[ Integer.parseInt(c.getValue().getMonth())-1 ]));
+
+        yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
         
         appointmentTable.setPlaceholder(new Label(Main.rb.getString("NoRowsToDisplay")));
         
@@ -183,8 +175,25 @@ public class scheduleController implements Initializable {
         sortedAppointment.comparatorProperty().bind(appointmentTable.comparatorProperty());
         
         appointmentTable.setItems(sortedAppointment);
+
+        upcomingAppointment();
         
-    }    
+    }
+
+    private void upcomingAppointment() {
+        LocalDateTime now = LocalDateTime.now();
+        for(int x=0;x<Main.getAppointmentList().size();x++){
+            if(Integer.parseInt(Main.getAppointmentList().get(x).getYear()) == now.getYear()){
+                if(Integer.parseInt(Main.getAppointmentList().get(x).getMonth()) == now.getMonthValue()){
+                    if(Integer.parseInt(Main.getAppointmentList().get(x).getDay()) == now.getDayOfMonth()){
+                        if(Integer.parseInt(Main.getAppointmentList().get(x).getStart()) == now.getHour()-1 && now.getMinute() >= 45){
+                            alertUser("You have an appointment with "+Main.getAppointmentList().get(x).getCustomer().getName() +"at "+Integer.parseInt(Main.getAppointmentList().get(x).getStart()));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     //Opens customer form
     @FXML
@@ -221,12 +230,6 @@ public class scheduleController implements Initializable {
     }
 
     
-    //Views next month or next week
-    @FXML
-    private void viewNextButtonHandler(ActionEvent event) {
-        
-
-    }
     
     //Updates the selected appointment by opening the appointment form with current values
     @FXML
@@ -272,13 +275,11 @@ public class scheduleController implements Initializable {
     }
 
 
-    @FXML
     private void viewMonthMenuItemHandler(ActionEvent event) {
         appointmentTable.setItems(Main.getAppointmentList());
         customerInfoLabel.setText(Main.rb.getString("all")+" "+Main.rb.getString("customer")+" "+Main.rb.getString("appointments"));
     }
 
-    @FXML
     private void viewByWeekMenuItemHandler(ActionEvent event) {
         appointmentTable.setItems(filteredAllAppointments);
 
@@ -311,19 +312,6 @@ public class scheduleController implements Initializable {
     }
 
     @FXML
-    private void goButtonHandler(ActionEvent event) {
-        appointmentTable.setItems(filteredAllAppointments);
-        filteredAllAppointments.setPredicate(appointment -> {
-            if(Integer.parseInt(appointment.getMonth()) == monthComboBox.getSelectionModel().getSelectedIndex()+1 && appointment.getYear().equals(yearTextField.getText().trim())){
-                return true;
-            }
-
-            return false;
-        });
-        
-    }
-
-    @FXML
     private void viewAppointmentsButtonHandler(ActionEvent event) {
         Customer customer = customerTable.getSelectionModel().getSelectedItem();
         appointmentTable.setItems(customer.getAppointments());
@@ -334,6 +322,106 @@ public class scheduleController implements Initializable {
     private void viewAllAppointmentsButtonHandler(ActionEvent event) {
         appointmentTable.setItems(Main.getAppointmentList());
         customerInfoLabel.setText(Main.rb.getString("all")+" "+Main.rb.getString("customer")+" "+Main.rb.getString("appointments"));
+    }
+
+    @FXML
+    private void viewWeekHandler(ActionEvent event) {
+        if(datePicker.getValue() == null){
+            alertUser("Please select a date before selecting view week of or view month buttons");
+        }else {
+            appointmentTable.setItems(filteredAllAppointments);
+            LocalDate week = datePicker.getValue();
+            //Lamba expression to filter appointment table rows based on the week taken from the date picker
+            filteredAllAppointments.setPredicate(appointment -> {
+                String weekStart = week.with(DayOfWeek.MONDAY).toString();
+
+                for (int x = 0; x < 7; x++) {
+                    weekStart = week.with(DayOfWeek.MONDAY.plus(x)).toString();
+                    if (Integer.parseInt(weekStart.substring(weekStart.length() - 2, weekStart.length())) == Integer.parseInt(appointment.getDay())) {
+                        if (Integer.parseInt(weekStart.substring(weekStart.length() - 5, weekStart.length() - 3)) == Integer.parseInt(appointment.getMonth())) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            });
+        }
+    }
+
+    @FXML
+    private void viewMonthHandler(ActionEvent event) {
+        if(datePicker.getValue() == null){
+            alertUser("Please select a date before selecting view week of or view month buttons");
+        }else {
+            appointmentTable.setItems(filteredAllAppointments);
+            filteredAllAppointments.setPredicate(appointment -> {
+                if (Integer.parseInt(appointment.getMonth()) == datePicker.getValue().getMonthValue() && Integer.parseInt(appointment.getYear()) == datePicker.getValue().getYear()) {
+                    return true;
+                }
+                return false;
+            });
+        }
+    }
+
+    @FXML
+    private void reportButtonHandler(ActionEvent event) {
+        Label report = new Label();
+        AnchorPane pane = new AnchorPane();
+        pane.getChildren().add(report);
+
+        Scene scene = new Scene(pane,500,1000);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+        //Makes list of users
+        List<String> userList = new ArrayList<String>();
+        for(int x=0;x<Main.getAppointmentList().size();x++){
+            Appointment a = Main.getAppointmentList().get(x);
+            if(userList.isEmpty() || !userList.contains(a.getUser())){
+                userList.add(a.getUser());
+            }
+        }
+        //Consultant schedules
+        String userSchedule= "";
+        for(int i=0;i<userList.size();i++) {
+            userSchedule = "        Consultant: "+userList.get(i) + "\n";
+            for (int x = 0; x < Main.getAppointmentList().size(); x++) {
+                Appointment a = Main.getAppointmentList().get(x);
+                if (a.getUser().equals(userList.get(i))) {
+                    userSchedule += "       Appointment with " + a.getCustomer().getName() + " from " + a.getStart() + " to " + a.getEnd() + " on " + a.getDay() + "." + a.getMonth() + "." + a.getYear() + "\n";
+                }
+            }
+        }
+
+        //Number of appointment types in each month
+        String numAppointment = "";
+        int num = 0;
+        for (int j=2019;j<=2021;j++){
+            for(int k=1;k<=12;k++){
+                num=0;
+                for(int z=0;z<Main.getAppointmentList().size();z++){
+                    Appointment app = Main.getAppointmentList().get(z);
+                    if(Integer.parseInt(app.getYear()) == j && Integer.parseInt(app.getMonth()) == k){
+                        num++;
+                    }
+                }
+                if(num>0){
+                    numAppointment +="      "+num +" in month of: "+k+"."+j+"\n";
+                }
+            }
+        }
+
+        //Meeting hours in each month
+
+        String reportString= "REPORT:\n"+
+                "   Consultant schedule-\n"+userSchedule+"\n"+
+                "   Number of appointment types in each month-\n"+numAppointment+"\n"+
+                "   Number of meeting hours scheduled in each month\n";
+
+
+        report.setText(reportString);
     }
     
     
