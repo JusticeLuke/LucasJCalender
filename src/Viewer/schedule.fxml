@@ -40,10 +40,10 @@
             <TableColumn fx:id="customerAppColumn" prefWidth="131.3333740234375" text="Customer" />
             <TableColumn fx:id="consultantColumn" minWidth="0.0" prefWidth="113.33340454101562" text="Consultant" />
           <TableColumn fx:id="typeColumn" prefWidth="112.666748046875" text="Type" />
-            <TableColumn fx:id="startTmeColumn" prefWidth="76.0" text="Start Hour" />
-            <TableColumn fx:id="endTimeColumn" minWidth="0.0" prefWidth="65.3333740234375" text="End Hour" />
-            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="72.666748046875" text="Day" />
-            <TableColumn fx:id="monthColumn" prefWidth="59.99993896484375" text="Month" />
+            <TableColumn fx:id="startTmeColumn" prefWidth="68.0" text="Start Hour" />
+            <TableColumn fx:id="endTimeColumn" minWidth="0.0" prefWidth="58.5" text="End Hour" />
+            <TableColumn fx:id="dayColumn" minWidth="9.0" prefWidth="44.0" text="Day" />
+            <TableColumn fx:id="monthColumn" prefWidth="106.5" text="Month" />
         </columns>
       </TableView>
       <Button fx:id="updateAppointmentButton" layoutX="808.0" layoutY="397.0" mnemonicParsing="false" onAction="#updateAppointmentButtonHandler" text="UPDATE" />
