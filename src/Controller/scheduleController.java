@@ -8,6 +8,7 @@ package Controller;
 import Model.Appointment;
 import com.gluonhq.charm.glisten.control.TextField;
 import java.net.URL;
+import java.text.DateFormatSymbols;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -165,13 +166,19 @@ public class scheduleController implements Initializable {
         customerTable.setItems(Main.getCustomerList());
         
         //Populate appointment table
-        startTmeColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
-        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        //Lamba expression used to append start time and end time string and increase user readability so the
+        //given time given looks like military time and not just an integer
+        startTmeColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getStart()+":00"));
+        endTimeColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEnd()+":00"));
         dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
-        customerAppColumn.setCellValueFactory(c-> new SimpleStringProperty(c.getValue().getCustomer().getName()));
-        monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
+        //Lamba expresssion to get the appointment's customer, then get the customer's name, and set to cell value
+        customerAppColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCustomer().getName()));
+        //Lamba expression is used here to convert the String month to an integer then use DateFormatSymbols class to convert it to a
+        //localized name of the month string and set it to cell value. Lamba expression is used here to lessen the complexity of the
+        //appointment class, since printing the month name is to increase user readability.
+        monthColumn.setCellValueFactory(c -> new SimpleStringProperty(new DateFormatSymbols().getMonths()[ Integer.parseInt(c.getValue().getMonth())-1 ]));
         
         appointmentTable.setPlaceholder(new Label(Main.rb.getString("NoRowsToDisplay")));
         
@@ -290,8 +297,8 @@ public class scheduleController implements Initializable {
         filteredAllAppointments.setPredicate(appointment -> {
             if(Integer.parseInt(appointment.getMonth()) == monthComboBox.getSelectionModel().getSelectedIndex()+1 && appointment.getYear().equals(yearTextField.getText().trim())){
                 return true;
-            }            
-            
+            }
+
             return false;
         });
         
