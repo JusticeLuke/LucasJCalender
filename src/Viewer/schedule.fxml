@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.TextField?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -36,8 +35,6 @@
             <Button fx:id="viewAppointments" layoutX="152.0" layoutY="397.0" mnemonicParsing="false" onAction="#viewAppointmentsButtonHandler" text="View Appointments" />
          </children>
       </AnchorPane>
-      <TextField fx:id="yearTextField" layoutX="567.0" layoutY="13.0" prefHeight="25.0" prefWidth="67.0" promptText="YEAR" />
-      <Button fx:id="viewNextButton" layoutX="696.0" layoutY="11.0" mnemonicParsing="false" onAction="#viewNextButtonHandler" prefHeight="27.0" prefWidth="85.0" text="NEXT" />
       <TableView fx:id="appointmentTable" layoutX="293.0" layoutY="40.0" prefHeight="352.0" prefWidth="636.0">
         <columns>
             <TableColumn fx:id="customerAppColumn" prefWidth="131.3333740234375" text="Customer" />
@@ -53,14 +50,13 @@
       <Button fx:id="addAppointmentButton" layoutX="770.0" layoutY="397.0" mnemonicParsing="false" onAction="#addAppointmentButtonHandler" text="+" />
       <Button fx:id="deleteAppointmentButton" layoutX="907.0" layoutY="397.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="-" />
       <Label fx:id="customerInfoLabel" layoutX="293.0" layoutY="17.0" text="All Customer Appointments" />
-      <MenuButton fx:id="viewByMenuButton" layoutX="838.0" layoutY="13.0" mnemonicParsing="false" text="VIEW BY">
+      <Button fx:id="viewAllAppointmentsButton" layoutX="573.0" layoutY="397.0" mnemonicParsing="false" onAction="#viewAllAppointmentsButtonHandler" text="View All Appointments" />
+      <DatePicker fx:id="datePicker" layoutX="549.0" layoutY="12.0" />
+      <MenuButton fx:id="dateViewMenuButton" layoutX="756.0" layoutY="12.0" mnemonicParsing="false" onAction="#dateViewMenuButtonHandler" text="View">
         <items>
-          <MenuItem fx:id="viewMonthMenuItem" mnemonicParsing="false" onAction="#viewMonthMenuItemHandler" text="MONTH" />
-          <MenuItem fx:id="viewByWeekMenuItem" mnemonicParsing="false" onAction="#viewByWeekMenuItemHandler" text="WEEK" />
+          <MenuItem mnemonicParsing="false" text="week of" />
+          <MenuItem mnemonicParsing="false" text="month of" />
         </items>
       </MenuButton>
-      <Button fx:id="goButton" layoutX="634.0" layoutY="12.0" mnemonicParsing="false" onAction="#goButtonHandler" text="GO" />
-      <Button fx:id="viewAllAppointmentsButton" layoutX="573.0" layoutY="397.0" mnemonicParsing="false" onAction="#viewAllAppointmentsButtonHandler" text="View All Appointments" />
-      <ComboBox fx:id="monthComboBox" layoutX="461.0" layoutY="13.0" prefHeight="25.0" prefWidth="94.0" promptText="MONTH" />
    </children>
 </AnchorPane>

@@ -9,17 +9,16 @@ import Model.Appointment;
 import com.gluonhq.charm.glisten.control.TextField;
 import java.net.URL;
 import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import Model.Customer;
 import Model.Main;
@@ -29,9 +28,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -107,13 +104,11 @@ public class scheduleController implements Initializable {
     private ComboBox<String> monthComboBox;
     
     FilteredList<Appointment> filteredAllAppointments = new FilteredList<>(Main.getAppointmentList(), p -> true);
-    
-    
-    
-    
+    int viewWeekStartInt = 1;
     //Populates customer and appointment tables with current data
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         //Set button, label, and items text with localized string
         monthComboBox.setPromptText(Main.rb.getString("month"));
         viewByMenuButton.setText(Main.rb.getString("view"));
@@ -152,7 +147,6 @@ public class scheduleController implements Initializable {
         monthComboBox.getItems().add(Main.rb.getString("november"));
         monthComboBox.getItems().add(Main.rb.getString("december"));
         
-        
         //Populate customer table
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -162,19 +156,22 @@ public class scheduleController implements Initializable {
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
      
         customerTable.setPlaceholder(new Label(Main.rb.getString("NoRowsToDisplay")));
-        
         customerTable.setItems(Main.getCustomerList());
         
         //Populate appointment table
+
         //Lamba expression used to append start time and end time string and increase user readability so the
         //given time given looks like military time and not just an integer
         startTmeColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getStart()+":00"));
         endTimeColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEnd()+":00"));
+
         dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         consultantColumn.setCellValueFactory(new PropertyValueFactory<>("user"));
+
         //Lamba expresssion to get the appointment's customer, then get the customer's name, and set to cell value
         customerAppColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCustomer().getName()));
+
         //Lamba expression is used here to convert the String month to an integer then use DateFormatSymbols class to convert it to a
         //localized name of the month string and set it to cell value. Lamba expression is used here to lessen the complexity of the
         //appointment class, since printing the month name is to increase user readability.
@@ -227,6 +224,8 @@ public class scheduleController implements Initializable {
     //Views next month or next week
     @FXML
     private void viewNextButtonHandler(ActionEvent event) {
+        
+
     }
     
     //Updates the selected appointment by opening the appointment form with current values
@@ -275,11 +274,31 @@ public class scheduleController implements Initializable {
 
     @FXML
     private void viewMonthMenuItemHandler(ActionEvent event) {
-
+        appointmentTable.setItems(Main.getAppointmentList());
+        customerInfoLabel.setText(Main.rb.getString("all")+" "+Main.rb.getString("customer")+" "+Main.rb.getString("appointments"));
     }
 
     @FXML
     private void viewByWeekMenuItemHandler(ActionEvent event) {
+        appointmentTable.setItems(filteredAllAppointments);
+
+        LocalDate week = LocalDate.of(Integer.parseInt(yearTextField.getText()),monthComboBox.getSelectionModel().getSelectedIndex()+1,1);
+        //String weekStart = week.with(DayOfWeek.MONDAY).toString();
+        filteredAllAppointments.setPredicate(appointment -> {
+            String weekStart = week.with(DayOfWeek.MONDAY).toString();
+
+            for(int x=0;x<7;x++){
+                weekStart = week.with(DayOfWeek.MONDAY.plus(x)).toString();
+                if(Integer.parseInt(weekStart.substring(weekStart.length()-2,weekStart.length())) == Integer.parseInt(appointment.getDay())){
+                    if(Integer.parseInt(weekStart.substring(weekStart.length()-5,weekStart.length()-3)) == Integer.parseInt(appointment.getMonth())){
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        });
+
     }
     
     private void alertUser(String message){

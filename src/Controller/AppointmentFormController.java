@@ -179,7 +179,11 @@ public class AppointmentFormController implements Initializable {
     private boolean inputValidation(){
         type = typeTextField.getText().trim();
         
-        year = yearTextField.getText().trim(); 
+        year = yearTextField.getText().trim();
+        if(dayComboBox.getValue() == null || startComboBox.getValue() == null || endComboBox.getValue() == null){
+            errorString += Main.rb.getString("PleaseFillOutAllFieldsBeforeSaving")+"\n";
+            return false;
+        }
         day = dayComboBox.getValue();
 
         start = formatTime(startComboBox.getValue());
@@ -214,6 +218,11 @@ public class AppointmentFormController implements Initializable {
         int endInt = Integer.parseInt(end);
         int startCompare;
         int endCompare;
+
+        if(startInt >= endInt){
+            return true;
+        }
+
         for (int x=0;x<Main.getAppointmentList().size();x++){
             appointment = Main.getAppointmentList().get(x);
             if(appointment.getUser().equals(Main.getUserName()) && appointment.getYear().equals(year) && appointment.getMonth().equals(month) && appointment.getDay().equals(day)){
