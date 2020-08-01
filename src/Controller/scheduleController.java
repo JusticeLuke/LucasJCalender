@@ -398,7 +398,7 @@ public class scheduleController implements Initializable {
         //Number of appointment types in each month
         String numAppointment = "";
         int num = 0;
-        for (int j=2019;j<=2021;j++){
+        for (int j=2019;j<=2022;j++){
             for(int k=1;k<=12;k++){
                 num=0;
                 for(int z=0;z<Main.getAppointmentList().size();z++){
@@ -414,11 +414,26 @@ public class scheduleController implements Initializable {
         }
 
         //Meeting hours in each month
-
+        String numAppointmentHours = "";
+        int numHours = 0;
+        for (int j=2019;j<=2022;j++){
+            for(int k=1;k<=12;k++){
+                num=0;
+                for(int z=0;z<Main.getAppointmentList().size();z++){
+                    Appointment app = Main.getAppointmentList().get(z);
+                    if(Integer.parseInt(app.getYear()) == j && Integer.parseInt(app.getMonth()) == k){
+                        num += Integer.parseInt(app.getEnd())-Integer.parseInt(app.getStart());
+                    }
+                }
+                if(num>0){
+                    numAppointmentHours +="      "+num+" hours of meetings in month of: "+k+"."+j+"\n";
+                }
+            }
+        }
         String reportString= "REPORT:\n"+
                 "   Consultant schedule-\n"+userSchedule+"\n"+
                 "   Number of appointment types in each month-\n"+numAppointment+"\n"+
-                "   Number of meeting hours scheduled in each month\n";
+                "   Number of meeting hours scheduled in each month-\n"+numAppointmentHours+"\n";
 
 
         report.setText(reportString);

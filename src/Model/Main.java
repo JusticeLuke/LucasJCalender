@@ -5,6 +5,10 @@
  */
 package Model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +26,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.scene.control.TableView;
 import util.DBQuery;
 
@@ -201,6 +208,19 @@ public class Main extends Application {
     public static boolean addToAppointmentList(Appointment appointment){
         allAppointments.add(appointment);
         return true;
+    }
+
+    public static void printLog(){
+        try {
+            PrintWriter pw = new PrintWriter(new FileOutputStream(
+                    new File("log.txt"),true));
+
+            pw.append(getUserName()+" logged in at: "+LocalDateTime.now());
+
+            pw.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     //User id is set when the user logins

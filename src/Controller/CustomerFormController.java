@@ -164,9 +164,9 @@ public class CustomerFormController implements Initializable {
         //Checks if postal code and street num contain only numbers
         try{
                       
-            if(String.valueOf(phone).length() != 10){
+            if(String.valueOf(phone).length() != 10 || !phone.chars().allMatch(Character::isDigit)){
                 errorString += Main.rb.getString("PhoneNumbersHave10Digits")+"\n";
-                
+                valid = false;
             }
             int postal = Integer.parseInt(postalCode);
             if(String.valueOf(postal).length() != 5 || postal < 0){

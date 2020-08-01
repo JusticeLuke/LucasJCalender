@@ -8,6 +8,8 @@ package Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 import Model.Main;
@@ -42,12 +44,24 @@ public class LoginController implements Initializable {
     private Label timeLabel;
 
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    @FXML
+    private Label loginLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label passwordLabel;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        timeLabel.setText(String.valueOf(LocalDateTime.now(ZoneId.systemDefault())));
+
+        loginLabel.setText(Main.rb.getString("login"));
+        usernameLabel.setText(Main.rb.getString("username"));
+        passwordLabel.setText(Main.rb.getString("password"));
+
+        loginButton.setText(Main.rb.getString("login"));
     }    
 
     @FXML
@@ -57,6 +71,7 @@ public class LoginController implements Initializable {
         alert.setContentText("");
 
         if(checkCred(username, password)) {
+            Main.printLog();
             FXMLLoader load = new FXMLLoader(getClass().getResource("/Viewer/schedule.fxml"));
             Main.root = load.load();
 
